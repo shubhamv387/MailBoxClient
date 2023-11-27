@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --text: 0 85% 5%;
+    --background: 0 0% 98%;
+    --primary: 11 100% 65%;
+    --secondary: 60 2% 90%;
+    --accent: 11 100% 41%;
+    --border: 0 0% 0%;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --text: 0 85% 95%;
+      --background: 0 0% 2%;
+      --primary: 11 100% 35%;
+      --secondary: 60 2% 10%;
+      --accent: 11 100% 41%;
+      --border: 0 0% 100%;
+    }
+  }
+  :root[data-theme='dark'] {
+    --text: 0 85% 95%;
+    --background: 0 0% 2%;
+    --primary: 11 100% 35%;
+    --secondary: 60 2% 10%;
+    --accent: 11 100% 41%;
+    --border: 0 0% 100%;
+  }
+  :root[data-theme='light'] {
+    --text: 0 85% 5%;
+    --background: 0 0% 98%;
+    --primary: 11 100% 65%;
+    --secondary: 60 2% 90%;
+    --accent: 11 100% 41%;
+    --border: 0 0% 0%;
+  }
+  :root[data-theme='dark-blue'] {
+    --text: 240 50% 97%;
+    --background: 222 47% 11%;
+    --primary: 11 100% 35%;
+    --secondary: 215 25% 27%;
+    --accent: 11 100% 41%;
+    --border: 0 0% 100%;
+  }
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Mulish', sans-serif;
+}
+
+::selection {
+  background: hsl(var(--accent));
+  color: white;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Poppins', sans-serif;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0.5rem;
+  background-color: hsl(var(--primary));
+  border: 1px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #ffffff !important;
+}
+
+header nav a {
+  transition: all 0.15s ease-in-out;
+}
+
+header nav a:hover,
+.active {
+  color: hsl(var(--accent)) !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.wrapper {
+  @apply flex flex-col items-center justify-center w-full px-2;
+}
+
+.wrapper-padding {
+  @apply px-4 md:px-6 lg:px-8 xl:px-0;
+}
