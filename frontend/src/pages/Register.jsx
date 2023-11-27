@@ -111,7 +111,7 @@ const Auth = () => {
   };
 
   return (
-    <div className='relative w-full flex flex-col overflow-hidden px-4 py-10 sm:px-6 lg:px-8'>
+    <section className='relative w-full flex flex-col overflow-hidden px-4 py-10 sm:px-6 lg:px-8'>
       <div className='relative flex flex-1 flex-col items-center justify-center pb-20 gap-10 md:gap-20'>
         <h1 className='flex self-center font-semibold text-3xl '>Register</h1>
         <form onSubmit={submitFormHandler} className='w-full max-w-sm'>
@@ -180,7 +180,7 @@ const Auth = () => {
           </span>
         </Link>
       </div>
-    </div>
+    </section>
   );
 };
 
