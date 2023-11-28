@@ -4,14 +4,17 @@ import { FaDesktop } from 'react-icons/fa6';
 import { ThemeActions } from '../store/themeSlice';
 import { useEffect } from 'react';
 
-const ToggleThemeBtn = () => {
+const ToggleThemeBtn = ({ className }) => {
   const dispatch = useDispatch();
   const { theme } = useSelector((state) => state.theme);
 
   const options = [
-    { icon: <BsFillSunFill />, text: 'light' },
-    { icon: <BsFillMoonStarsFill />, text: 'dark-blue' },
-    { icon: <FaDesktop />, text: 'system' },
+    { icon: <BsFillSunFill className='w-4 md:w-auto' />, text: 'light' },
+    {
+      icon: <BsFillMoonStarsFill className='w-4 md:w-auto' />,
+      text: 'dark-blue',
+    },
+    { icon: <FaDesktop className='w-4 md:w-auto' />, text: 'system' },
   ];
 
   useEffect(() => {
@@ -19,7 +22,11 @@ const ToggleThemeBtn = () => {
   }, []);
 
   return (
-    <div className='bg-secondary rounded-full flex gap-5 overflow-hidden  p-3 px-5'>
+    <div
+      className={`bg-secondary rounded-full flex overflow-hidden gap-5 p-3 px-4 md:px-5 ${
+        className ? className : ''
+      }`}
+    >
       {options.map((opt) => (
         <button
           key={opt.text}

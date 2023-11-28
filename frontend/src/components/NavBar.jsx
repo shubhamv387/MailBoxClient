@@ -1,28 +1,52 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { AuthActions } from '../store/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { MailActions } from '../store/mailSlice';
 
-const NavBar = () => {
+const NavBar = ({ className }) => {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const logoutHandler = () => {
+    dispatch(AuthActions.logout());
+    dispatch(MailActions.resetMailState());
+    toast.success('logout successful');
+    navigate('/login');
+  };
+
   return (
-    <nav className='flex-1 m-auto'>
-      <ul className='flex items-center justify-center gap-10 text-text text-lg uppercase font-bold'>
+    <nav className={`flex-1 m-auto ${className ? className : ''}`}>
+      <ul className='flex flex-col gap-3 lg:flex-row items-center justify-center lg:gap-10 text-text text-lg uppercase font-bold'>
         {auth.isLoggedIn && (
-          <li className='text-text'>
-            <NavLink to={'/'}>Home</NavLink>
-          </li>
+          <>
+            <li className='text-text'>
+              <NavLink to={'/'}>Home</NavLink>
+            </li>
+
+            <li className='text-text'>
+              <NavLink to={'/compose-mail'}>Compose Mail</NavLink>
+            </li>
+
+            <li className='text-text'>
+              <NavLink to={'/inbox'}>Inbox</NavLink>
+            </li>
+
+            <li className='text-text'>
+              <NavLink to={'/outbox'}>Outbox</NavLink>
+            </li>
+
+            <li className='text-text'>
+              <button
+                onClick={logoutHandler}
+                className='uppercase hover:text-accent'
+              >
+                Logout
+              </button>
+            </li>
+          </>
         )}
-        <li className='text-text'>
-          <NavLink to={'/about'}>About</NavLink>
-        </li>
-
-        <li className='text-text'>
-          <NavLink to={'/contact'}>Contact</NavLink>
-        </li>
-
         {!auth.isLoggedIn && (
           <>
             <li className='text-text'>
@@ -32,19 +56,6 @@ const NavBar = () => {
               <NavLink to={'/register'}>Register</NavLink>
             </li>
           </>
-        )}
-        {auth.isLoggedIn && (
-          <li className='text-text'>
-            <button
-              onClick={() => {
-                dispatch(AuthActions.logout());
-                navigate('/login');
-              }}
-              className='uppercase hover:text-accent'
-            >
-              Logout
-            </button>
-          </li>
         )}
       </ul>
     </nav>

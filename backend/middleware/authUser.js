@@ -11,7 +11,7 @@ exports.authUser = async (req, res, next) => {
 
       if (!user)
         return res.status(401).json({
-          status: 'Failed',
+          success: false,
           message: 'Not User Found, Please Login again',
         });
 
@@ -21,11 +21,11 @@ exports.authUser = async (req, res, next) => {
     } else {
       return res
         .status(401)
-        .json({ status: 'Failed', message: 'Not authorized, no token' });
+        .json({ success: false, message: 'Not authorized, no token' });
     }
   } catch (error) {
     return res
       .status(401)
-      .json({ status: 'Failed', message: 'Not authorized, invalid token' });
+      .json({ success: false, message: 'Not authorized, invalid token' });
   }
 };

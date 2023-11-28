@@ -12,6 +12,12 @@
     --secondary: 60 2% 90%;
     --accent: 11 100% 41%;
     --border: 0 0% 0%;
+    /* some custom css variables */
+    --background-1: 0, 0%, 98%;
+    --primary-1: 11, 100%, 65%;
+    --secondary-1: 60, 2%, 90%;
+    --accent-1: 11, 100%, 41%;
+    --border-1: 0, 0%, 0%;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -21,6 +27,13 @@
       --secondary: 60 2% 10%;
       --accent: 11 100% 41%;
       --border: 0 0% 100%;
+      /* some custom css variables */
+      --text-1: 0, 85%, 95%;
+      --background-1: 0, 0%, 2%;
+      --primary-1: 11, 100%, 35%;
+      --secondary-1: 60, 2%, 10%;
+      --accent-1: 11, 100%, 41%;
+      --border-1: 0, 0%, 100%;
     }
   }
   :root[data-theme='dark'] {
@@ -29,6 +42,13 @@
     --primary: 11 100% 35%;
     --secondary: 60 2% 10%;
     --accent: 11 100% 41%;
+    /* some custom css variables */
+    --border-1: 0, 0%, 100%;
+    --text-1: 0, 85%, 95%;
+    --background-1: 0, 0%, 2%;
+    --primary-1: 11, 100%, 35%;
+    --secondary-1: 60, 2%, 10%;
+    --accent-1: 11, 100%, 41%;
     --border: 0 0% 100%;
   }
   :root[data-theme='light'] {
@@ -38,6 +58,13 @@
     --secondary: 60 2% 90%;
     --accent: 11 100% 41%;
     --border: 0 0% 0%;
+    /* some custom css variables */
+    --text-1: 0, 85%, 5%;
+    --background-1: 0, 0%, 98%;
+    --primary-1: 11, 100%, 65%;
+    --secondary-1: 60, 2%, 90%;
+    --accent-1: 11, 100%, 41%;
+    --border-1: 0, 0%, 0%;
   }
   :root[data-theme='dark-blue'] {
     --text: 240 50% 97%;
@@ -46,6 +73,13 @@
     --secondary: 215 25% 27%;
     --accent: 11 100% 41%;
     --border: 0 0% 100%;
+    /* some custom css variables */
+    --text-1: 240, 50%, 97%;
+    --background-1: 222, 47%, 11%;
+    --primary-1: 11, 100%, 35%;
+    --secondary-1: 215, 25%, 27%;
+    --accent-1: 11, 100%, 41%;
+    --border-1: 0, 0%, 100%;
   }
 }
 
@@ -105,4 +139,68 @@ header nav a:hover,
 
 .wrapper-padding {
   @apply px-4 md:px-6 lg:px-8 xl:px-0;
+}
+
+/* REACT QUILL CUSTOM CSS */
+
+.ql-container.ql-snow {
+  border: none !important;
+  height: 89% !important;
+}
+
+.ql-toolbar.ql-snow {
+  border: none !important;
+  border-bottom: 1px solid hsla(var(--border-1), 0.2) !important;
+}
+
+.ql-toolbar.ql-snow .ql-formats {
+  background: hsla(var(--border-1), 0);
+  color: hsl(var(--text-1)) !important;
+}
+
+.ql-toolbar.ql-snow .ql-formats .ql-active .ql-stroke {
+  stroke: hsl(var(--primary-1)) !important;
+}
+
+.ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options {
+  background: hsl(var(--secondary-1));
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.ql-snow .ql-picker {
+  color: hsl(var(--border-1)) !important;
+}
+
+.ql-toolbar.ql-snow .ql-picker-label {
+  border: none !important;
+}
+.ql-editor p::placeholder {
+  color: #fff !important;
+}
+
+.ql-snow .ql-stroke {
+  stroke: hsl(var(--text-1)) !important;
+}
+
+.ql-snow .ql-fill,
+.ql-snow .ql-stroke.ql-fill {
+  fill: hsl(var(--text-1)) !important;
+}
+
+.ql-snow.ql-toolbar button:hover,
+.ql-snow .ql-toolbar button:hover,
+.ql-snow.ql-toolbar button:focus,
+.ql-snow .ql-toolbar button:focus,
+.ql-snow.ql-toolbar button.ql-active,
+.ql-snow .ql-toolbar button.ql-active,
+.ql-snow.ql-toolbar .ql-picker-label:hover,
+.ql-snow .ql-toolbar .ql-picker-label:hover,
+.ql-snow.ql-toolbar .ql-picker-label.ql-active,
+.ql-snow .ql-toolbar .ql-picker-label.ql-active,
+.ql-snow.ql-toolbar .ql-picker-item:hover,
+.ql-snow .ql-toolbar .ql-picker-item:hover,
+.ql-snow.ql-toolbar .ql-picker-item.ql-selected,
+.ql-snow .ql-toolbar .ql-picker-item.ql-selected {
+  color: hsl(var(--accent-1)) !important;
 }
