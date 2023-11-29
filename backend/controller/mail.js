@@ -1,14 +1,21 @@
 const Mail = require('../model/Mail');
+const User = require('../model/User');
 
 exports.sendMail = async (req, res, next) => {
   try {
+    const receiver = await User.findOne({ email: req.body.to });
+
+    if (!receiver)
+      return res.status(404).json({
+        success: false,
+        message: 'Receiver email does not exist!',
+      });
+
     const mail = new Mail({
-      to: req.body.to,
+      ...req.body,
       from: req.user.email,
-      subject: req.body.subject,
-      message: req.body.message,
-      type: req.body.type,
-      userId: req.user._id,
+      senderId: req.user._id,
+      receiverId: receiver._id,
     });
 
     await mail.save();
@@ -20,19 +27,51 @@ exports.sendMail = async (req, res, next) => {
 };
 
 exports.getMails = async (req, res, next) => {
-  try {
-    const allMails = await Mail.find({ userId: req.user._id });
+  // console.log(req.params.type);
 
-    res.status(200).json({ success: true, allMails });
+  try {
+    let allMails = [];
+
+    switch (req.params.type) {
+      case 'all':
+        allMails = await Mail.find({ senderId: req.user._id });
+        break;
+
+      case 'inbox':
+        allMails = await Mail.find({
+          to: req.user.email,
+        });
+        break;
+
+      case 'outbox':
+        allMails = await Mail.find({
+          from: req.user.email,
+        });
+        break;
+
+      default:
+        break;
+    }
+
+    return res.status(200).json({ success: true, allMails });
   } catch (error) {
     console.log(error);
   }
 };
 
 exports.updateMail = async (req, res, next) => {
-  console.log(req.params._id);
   try {
-    //
+    let updatedMail = await Mail.updateOne(
+      { _id: req.params.id },
+      { $set: req.body }
+    );
+
+    if (!updatedMail.modifiedCount)
+      return res.status(404).json({ success: false, message: 'failed!' });
+
+    res
+      .status(200)
+      .json({ success: true, message: 'mail updated successfully!' });
   } catch (error) {
     console.log(error);
   }

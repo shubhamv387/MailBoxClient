@@ -9,12 +9,26 @@ export const sendMail = async (formData, token) => {
   return axios.post(`${import.meta.env.VITE_BASE_URL}/mails`, formData, config);
 };
 
-export const getMails = async (token) => {
+export const getMails = async ({ token, type }) => {
   const config = {
     headers: {
       authorization: token,
     },
   };
 
-  return axios.get(`${import.meta.env.VITE_BASE_URL}/mails`, config);
+  return axios.get(`${import.meta.env.VITE_BASE_URL}/mails/${type}`, config);
+};
+
+export const updateMailApiCall = async (_id, formData, token, type) => {
+  const config = {
+    headers: {
+      authorization: token,
+    },
+  };
+
+  return axios.put(
+    `${import.meta.env.VITE_BASE_URL}/mails/${type}/${_id}`,
+    formData,
+    config
+  );
 };

@@ -17,6 +17,19 @@ const mailSlice = createSlice({
     resetMailState: (state) => {
       state.allMails = [];
     },
+
+    updateMail: (state, action) => {
+      const mailIndex = state.allMails.findIndex(
+        (mail) => mail._id === action.payload._id
+      );
+
+      const mail = state.allMails[mailIndex];
+
+      if (mail) {
+        let updatedMail = { ...mail, ...action.payload.mail };
+        state.allMails[mailIndex] = updatedMail;
+      }
+    },
   },
 });
 

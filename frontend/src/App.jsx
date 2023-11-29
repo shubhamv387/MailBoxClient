@@ -1,12 +1,12 @@
-import { Suspense, lazy, useEffect } from 'react';
+import { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import RootLayout from './components/layout/RootLayout';
-const Home = lazy(() => import('./pages/Home.jsx'));
+// const Home = lazy(() => import('./pages/Home.jsx'));
 const Login = lazy(() => import('./pages/Login.jsx'));
 const Register = lazy(() => import('./pages/Register.jsx'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword.jsx'));
@@ -18,27 +18,12 @@ const PageNotFound = lazy(() => import('./pages/PageNotFound.jsx'));
 // const Contact = lazy(() => import('./pages/Contact.jsx'));
 
 import PageLoader from './components/UI/PageLoader.jsx';
-import { getMails } from './services/mailServices.jsx';
-import { MailActions } from './store/mailSlice.jsx';
+// import { getMails } from './services/mailServices.jsx';
+// import { MailActions } from './store/mailSlice.jsx';
+import SingleMail from './pages/SingleMail.jsx';
 
 const App = () => {
-  const dispatch = useDispatch();
   const authCtx = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    const getAllMails = async () => {
-      try {
-        const {
-          data: { success, allMails },
-        } = await getMails(authCtx.token);
-
-        if (success) dispatch(MailActions.getAllMails(allMails));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    authCtx.isLoggedIn && getAllMails();
-  }, [authCtx.isLoggedIn]);
 
   const ProtectedRoute = ({ element }) => {
     if (authCtx.isLoggedIn) {
@@ -71,19 +56,14 @@ const App = () => {
         theme='dark'
         className='md:w-auto md:min-w-[320px]'
       />
+
       <Routes>
         <Route path='/' element={<RootLayout />}>
           <Route
             path='/'
             exact
             element={
-              <ProtectedRoute
-                element={
-                  <Suspense fallback={<PageLoader />}>
-                    <Home />
-                  </Suspense>
-                }
-              />
+              <ProtectedRoute element={<Navigate to='/inbox' replace />} />
             }
           />
 
@@ -116,6 +96,19 @@ const App = () => {
           />
 
           <Route
+            path='/inbox/:id'
+            element={
+              <ProtectedRoute
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <SingleMail />
+                  </Suspense>
+                }
+              />
+            }
+          />
+
+          <Route
             path='/outbox'
             exact
             element={
@@ -123,6 +116,19 @@ const App = () => {
                 element={
                   <Suspense fallback={<PageLoader />}>
                     <Outbox />
+                  </Suspense>
+                }
+              />
+            }
+          />
+
+          <Route
+            path='/outbox/:id'
+            element={
+              <ProtectedRoute
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <SingleMail />
                   </Suspense>
                 }
               />

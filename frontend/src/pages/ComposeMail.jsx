@@ -10,16 +10,18 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useRef, useState } from 'react';
 import { sendMail } from '../services/mailServices';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { MailActions } from '../store/mailSlice';
 
 const ComposeMail = () => {
   const authCtx = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [value, setValue] = useState('');
 
   const recipientInputRef = useRef();
   const subjectInputRef = useRef();
-  const messageInputRef = useRef();
+  const bodyInputRef = useRef();
 
   var toolbarOptions = [
     [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -48,21 +50,23 @@ const ComposeMail = () => {
     const formData = {
       to: recipientInputRef.current.value.trim(),
       subject: subjectInputRef.current.value.trim(),
-      message: messageInputRef.current.value.trim(),
+      body: bodyInputRef.current.value.trim(),
     };
 
-    console.log(formData);
+    // console.log(formData);
 
     try {
       const { data } = await sendMail(formData, authCtx.token);
 
-      console.log(data);
+      // console.log(data);
+
+      if (data.success) dispatch(MailActions.sendMail(data.mail));
 
       recipientInputRef.current.value = '';
       subjectInputRef.current.value = '';
 
       toast.success('Message sent successfully!');
-      navigate('/');
+      navigate('/outbox');
     } catch (error) {
       const errMsg =
         error?.response?.data?.message ||
@@ -104,7 +108,7 @@ const ComposeMail = () => {
             />
 
             <ReactQuill
-              ref={messageInputRef}
+              ref={bodyInputRef}
               theme='snow'
               value={value}
               onChange={setValue}

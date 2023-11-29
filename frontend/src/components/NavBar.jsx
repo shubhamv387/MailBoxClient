@@ -21,9 +21,9 @@ const NavBar = ({ className }) => {
       <ul className='flex flex-col gap-3 lg:flex-row items-center justify-center lg:gap-10 text-text text-lg uppercase font-bold'>
         {auth.isLoggedIn && (
           <>
-            <li className='text-text'>
+            {/* <li className='text-text'>
               <NavLink to={'/'}>Home</NavLink>
-            </li>
+            </li> */}
 
             <li className='text-text'>
               <NavLink to={'/compose-mail'}>Compose Mail</NavLink>
