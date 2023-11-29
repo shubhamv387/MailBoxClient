@@ -20,14 +20,16 @@ const Outbox = () => {
           data: { success, allMails },
         } = await getMails({ token: authCtx.token, type: 'outbox' });
 
-        if (success) dispatch(MailActions.getAllMails(allMails));
+        if (success) dispatch(MailActions.getAllMails({ allMails }));
       } catch (error) {
         console.log(error);
       } finally {
         setIsLoading(false);
       }
     };
-    authCtx.isLoggedIn && getAllMails();
+
+    const tId = setTimeout(() => getAllMails(), 10);
+    return () => clearTimeout(tId);
   }, []);
 
   return (

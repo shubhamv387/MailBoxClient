@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const mailSchema = new mongoose.Schema(
+const inboxMailSchema = new mongoose.Schema(
   {
     to: {
       type: String,
@@ -20,27 +20,15 @@ const mailSchema = new mongoose.Schema(
 
     starred: { type: Boolean, default: false },
 
-    type: String,
+    isRead: { type: Boolean, default: false },
 
     date: {
       type: Date,
       default: () => Date.now(),
     },
-
-    // senderId: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: 'User',
-    //   required: true,
-    // },
-
-    // receiverId: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: 'User',
-    //   required: true,
-    // },
   },
   { versionKey: false, timestamps: false }
 );
 
 //Export the model
-module.exports = mongoose.model('Mail', mailSchema);
+module.exports = mongoose.model('InboxMail', inboxMailSchema);

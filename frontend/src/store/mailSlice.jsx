@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = { allMails: [] };
+const initialState = { allMails: [], unreadMails: 0 };
 
 const mailSlice = createSlice({
   name: 'mail',
@@ -11,11 +11,14 @@ const mailSlice = createSlice({
     },
 
     getAllMails: (state, action) => {
-      state.allMails = action.payload;
+      state.allMails = action.payload.allMails;
+      if (action.payload.unreadMails !== undefined)
+        state.unreadMails = action.payload.unreadMails;
     },
 
     resetMailState: (state) => {
       state.allMails = [];
+      state.unreadMails = 0;
     },
 
     updateMail: (state, action) => {

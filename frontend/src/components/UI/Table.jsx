@@ -1,4 +1,5 @@
 import { IoMdStarOutline, IoMdStar } from 'react-icons/io';
+import { GoDotFill } from 'react-icons/go';
 import { Link, useLocation } from 'react-router-dom';
 import { updateMailApiCall } from '../../services/mailServices';
 import { useDispatch, useSelector } from 'react-redux';
@@ -58,13 +59,21 @@ const Table = ({ mailData }) => {
             to={`${pathname}/${mail._id}`}
             className='flex-1 w-full relative flex flex-col lg:flex-row gap-1 items-start lg:items-center justify-between '
           >
-            <p className='min-w-[4rem] lg:min-w-[12rem]'>
-              {pathname === '/outbox' ? (
-                <span>To : &nbsp;{mail.to.split('@')[0]}</span>
-              ) : (
-                mail.from.split('@')[0]
-              )}
-            </p>
+            <div className='flex gap-1 items-center'>
+              {mail.isRead === undefined ||
+                (!mail.isRead && (
+                  <p>
+                    <GoDotFill size={23} className='mt-1 text-accent' />
+                  </p>
+                ))}
+              <p className='min-w-[4rem] lg:min-w-[12rem]'>
+                {pathname === '/outbox' ? (
+                  <span>To : &nbsp;{mail.to.split('@')[0]}</span>
+                ) : (
+                  mail.from.split('@')[0]
+                )}
+              </p>
+            </div>
             {pathname === '/all' && (
               <p className='p-2 py-0.5 rounded-md bg-background text-sm text-text'>
                 inbox
