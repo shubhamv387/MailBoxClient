@@ -28,7 +28,7 @@ const Outbox = () => {
       }
     };
 
-    const tId = setTimeout(() => getAllMails(), 10);
+    const tId = setTimeout(() => getAllMails(), 0);
     return () => clearTimeout(tId);
   }, []);
 

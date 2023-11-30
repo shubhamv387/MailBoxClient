@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { AuthActions } from '../store/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import { MailActions } from '../store/mailSlice';
 
 const NavBar = ({ className }) => {

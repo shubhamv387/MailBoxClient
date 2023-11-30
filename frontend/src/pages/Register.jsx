@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 import Input from '../components/UI/Input';
 // import AuthContext from '../store/auth-context';
 import { registerUser } from '../services/userServices';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { AuthActions } from '../store/authSlice';
 

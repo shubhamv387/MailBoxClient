@@ -20,7 +20,7 @@ const inboxMailSchema = new mongoose.Schema(
 
     starred: { type: Boolean, default: false },
 
-    isRead: { type: Boolean, default: false },
+    markasread: { type: Boolean, default: false },
 
     date: {
       type: Date,

@@ -5,6 +5,7 @@ const {
   getMails,
   getSingleMail,
   updateMail,
+  deleteMail,
 } = require('../controller/mail');
 const router = express.Router();
 
@@ -15,5 +16,7 @@ router.post('/', authUser, sendMail);
 router.get('/:type/:id', authUser, getSingleMail);
 
 router.put('/:type/:id', authUser, updateMail);
+
+router.delete('/:type/:id', authUser, deleteMail);
 
 module.exports = router;

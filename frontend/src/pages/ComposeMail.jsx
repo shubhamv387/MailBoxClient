@@ -1,4 +1,4 @@
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 
 import { CgClose } from 'react-icons/cg';
 import { RiDeleteBinLine } from 'react-icons/ri';
@@ -12,12 +12,14 @@ import { useRef, useState } from 'react';
 import { sendMail } from '../services/mailServices';
 import { useDispatch, useSelector } from 'react-redux';
 import { MailActions } from '../store/mailSlice';
+import { Loader } from '../components/UI/PageLoader';
 
 const ComposeMail = () => {
   const authCtx = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [value, setValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const recipientInputRef = useRef();
   const subjectInputRef = useRef();
@@ -45,7 +47,7 @@ const ComposeMail = () => {
     e.preventDefault();
 
     if (recipientInputRef.current.value.trim().length < 1)
-      return toast.warn('Please provide the Recipient email');
+      return toast.error('Please provide the Recipient email');
 
     const formData = {
       to: recipientInputRef.current.value.trim(),
@@ -53,12 +55,9 @@ const ComposeMail = () => {
       body: bodyInputRef.current.value.trim(),
     };
 
-    // console.log(formData);
-
     try {
+      setIsLoading(true);
       const { data } = await sendMail(formData, authCtx.token);
-
-      // console.log(data);
 
       if (data.success) dispatch(MailActions.sendMail(data.mail));
 
@@ -73,7 +72,9 @@ const ComposeMail = () => {
         error.message ||
         'Something went wrong!';
       toast.error(errMsg);
-      console.log(error);
+      // console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -118,10 +119,20 @@ const ComposeMail = () => {
           </div>
           <div className='p-5 py-3 flex items-center justify-between '>
             <button
+              disabled={isLoading}
               className='bg-accent hover:bg-accent/80 text-white p-4 py-1 text-lg rounded-full w-fit flex items-center'
               type='submit'
             >
-              Send &nbsp; <BiSolidSend />
+              {isLoading ? (
+                <span className='flex items-center'>
+                  <Loader className={'p-2 border-2 border-blue'} /> &nbsp;
+                  Sending mail...
+                </span>
+              ) : (
+                <span className='flex items-center'>
+                  Send &nbsp; <BiSolidSend />
+                </span>
+              )}
             </button>
             <button type='button' onClick={() => navigate('/')}>
               <RiDeleteBinLine size={23} />

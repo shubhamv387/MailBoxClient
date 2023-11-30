@@ -3,6 +3,7 @@ const Mail = require('../model/Mail');
 const User = require('../model/User');
 
 exports.sendMail = async (req, res, next) => {
+  console.log(req.body);
   try {
     const receiver = await User.findOne({ email: req.body.to });
 
@@ -68,7 +69,7 @@ exports.getMails = async (req, res, next) => {
 
     const unreadMails = await InboxMail.countDocuments({
       to: req.user.email,
-      isRead: false,
+      markasread: false,
     });
     // console.log(unreadMails);
 
@@ -107,25 +108,31 @@ exports.getSingleMail = async (req, res, next) => {
 exports.updateMail = async (req, res, next) => {
   // console.log(req.body, req.params);
   try {
-    let updatedMail;
     if (req.params.type === 'outbox') {
-      updatedMail = await Mail.updateOne(
-        { _id: req.params.id },
-        { $set: req.body }
-      );
+      await Mail.updateOne({ _id: req.params.id }, { $set: req.body });
     } else if (req.params.type === 'inbox') {
-      updatedMail = await InboxMail.updateOne(
-        { _id: req.params.id },
-        { $set: req.body }
-      );
+      await InboxMail.updateOne({ _id: req.params.id }, { $set: req.body });
     }
-
-    if (!updatedMail.modifiedCount)
-      return res.status(404).json({ success: false, message: 'failed!' });
 
     res
       .status(200)
       .json({ success: true, message: 'mail updated successfully!' });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.deleteMail = async (req, res, next) => {
+  try {
+    if (req.params.type === 'outbox') {
+      await Mail.deleteOne({ _id: req.params.id });
+    } else if (req.params.type === 'inbox') {
+      await InboxMail.findOneAndDelete({ _id: req.params.id });
+    }
+
+    res
+      .status(200)
+      .json({ success: true, message: 'mail deleted successfully!' });
   } catch (error) {
     console.log(error);
   }

@@ -2,7 +2,7 @@ import { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { ToastContainer } from 'react-toastify';
+import { Toaster } from 'react-hot-toast';
 import 'react-toastify/dist/ReactToastify.css';
 
 import RootLayout from './components/layout/RootLayout';
@@ -14,13 +14,12 @@ const ComposeMail = lazy(() => import('./pages/ComposeMail.jsx'));
 const Inbox = lazy(() => import('./pages/Inbox.jsx'));
 const Outbox = lazy(() => import('./pages/Outbox.jsx'));
 const PageNotFound = lazy(() => import('./pages/PageNotFound.jsx'));
+const SingleMail = lazy(() => import('./pages/SingleMail/SingleMail.jsx'));
+
 // const About = lazy(() => import('./pages/About.jsx'));
 // const Contact = lazy(() => import('./pages/Contact.jsx'));
 
 import PageLoader from './components/UI/PageLoader.jsx';
-// import { getMails } from './services/mailServices.jsx';
-// import { MailActions } from './store/mailSlice.jsx';
-import SingleMail from './pages/SingleMail.jsx';
 
 const App = () => {
   const authCtx = useSelector((state) => state.auth);
@@ -45,16 +44,14 @@ const App = () => {
 
   return (
     <>
-      <ToastContainer
-        position='top-right'
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnHover
-        theme='dark'
-        className='md:w-auto md:min-w-[320px]'
+      <Toaster
+        toastOptions={{
+          style: {
+            border: '1px solid green',
+            background: 'hsl(var(--border-1))',
+            color: 'hsl(var(--background-1))',
+          },
+        }}
       />
 
       <Routes>

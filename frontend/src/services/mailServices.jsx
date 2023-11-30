@@ -45,3 +45,16 @@ export const updateMailApiCall = async (_id, formData, token, type) => {
     config
   );
 };
+
+export const deleteMailApiCall = async (_id, token, type) => {
+  const config = {
+    headers: {
+      authorization: token,
+    },
+  };
+
+  return axios.delete(
+    `${import.meta.env.VITE_BASE_URL}/mails/${type}/${_id}`,
+    config
+  );
+};
