@@ -61,8 +61,8 @@ const SingleMail = () => {
   if (isLoading) return <Loader className={'p-4 border-[6px] border-accent'} />;
 
   return (
-    <section className='flex justify-center w-full my-3 px-1 h-[75vh] mx-auto'>
-      <div className='container flex flex-col justify-between bg-secondary/30 rounded-lg overflow-hidden '>
+    <section className='flex justify-center w-full my-3 px-1 h-[79vh] mx-auto'>
+      <div className=' flex flex-col w-full justify-between bg-secondary/30 rounded-lg overflow-hidden '>
         <div className='bg-border/20 text-background p-3 py-2 flex items-center gap-3'>
           <button
             onClick={() => navigate(-1)}
@@ -73,7 +73,7 @@ const SingleMail = () => {
           </button>
         </div>
 
-        <div className='flex w-full flex-col md:flex-row justify-between p-4 border-b border-b-border/20'>
+        <div className='flex w-full gap-2 flex-col md:flex-row justify-between p-4 border-b border-b-border/20'>
           <p className='text-lg md:text-xl font-bold'>{mail.subject}</p>
           <div className='flex gap-3 items-center'>
             <StarredEl mail={mail} />

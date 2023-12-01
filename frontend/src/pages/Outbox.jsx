@@ -33,7 +33,7 @@ const Outbox = () => {
   }, []);
 
   return (
-    <section className='container flex flex-col justify-center items-center'>
+    <section className=' flex flex-col w-full justify-center items-center'>
       {isLoading ? (
         <Loader className={'p-4 border-[6px] border-accent'} />
       ) : allMails.length > 0 ? (

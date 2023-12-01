@@ -3,7 +3,7 @@ const Mail = require('../model/Mail');
 const User = require('../model/User');
 
 exports.sendMail = async (req, res, next) => {
-  console.log(req.body);
+  // console.log(req.body);
   try {
     const receiver = await User.findOne({ email: req.body.to });
 

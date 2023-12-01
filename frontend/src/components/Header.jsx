@@ -1,36 +1,29 @@
-import { useState } from 'react';
-import NavBar from './NavBar';
+import { useContext } from 'react';
 import ToggleThemeBtn from './ToggleThemeBtn';
-import { CgMenuRightAlt, CgCloseO } from 'react-icons/cg';
+import { CgMenuLeftAlt } from 'react-icons/cg';
+import { SidebarContext } from '../context/sidebarContext';
 
 const Header = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { toggleSidebar } = useContext(SidebarContext);
 
   return (
-    <header className='wrapper py-4 bg-background border-b border-b-border/10 text-text relative'>
-      <div className='w-full flex justify-between items-center mx-auto container '>
-        <h1 className='uppercase text-sm md:text-base text-text font-bold p-2 md:px-4 md:py-2 rounded-md bg-background border-2 border-accent'>
+    <header className='p-4 bg-background border-b border-b-border/10 text-text relative'>
+      <div className='w-full flex justify-between items-center mx-auto  '>
+        <button
+          type='button'
+          className='flex items-center mr-3'
+          onClick={() => toggleSidebar()}
+        >
+          <CgMenuLeftAlt size={35} />
+        </button>
+        <h1 className='uppercase hidden md:flex text-sm md:text-base text-text font-bold p-2 md:px-4 md:py-2 rounded-md bg-background border-2 border-accent'>
           Mail Box Client.
         </h1>
-        <NavBar className={'hidden lg:block'} />
-        {isMobileMenuOpen && (
-          <NavBar
-            className={
-              'fixed flex items-center justify-center right-0 top-[4.3rem] w-screen z-20 bg-secondary p-10'
-            }
-          />
-        )}
-        <ToggleThemeBtn className={'ms-auto me-3'} />
-        <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          type='button'
-        >
-          {isMobileMenuOpen ? (
-            <CgCloseO size={29} className='lg:hidden' />
-          ) : (
-            <CgMenuRightAlt size={29} className='lg:hidden' />
-          )}
-        </button>
+
+        <h1 className='uppercase md:hidden text-sm md:text-base text-text font-bold p-2 md:px-4 md:py-2 rounded-md bg-background border-2 border-accent'>
+          M B C.
+        </h1>
+        <ToggleThemeBtn className={'ms-auto '} />
       </div>
     </header>
   );

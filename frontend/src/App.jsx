@@ -3,7 +3,6 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { Toaster } from 'react-hot-toast';
-import 'react-toastify/dist/ReactToastify.css';
 
 import RootLayout from './components/layout/RootLayout';
 // const Home = lazy(() => import('./pages/Home.jsx'));

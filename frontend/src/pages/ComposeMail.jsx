@@ -79,8 +79,8 @@ const ComposeMail = () => {
   };
 
   return (
-    <section className='flex justify-center w-full my-3 px-4 h-[75vh] mx-auto'>
-      <div className='container flex flex-col justify-between bg-background rounded-lg overflow-hidden  border border-border/60'>
+    <section className='flex justify-center w-full my-3 h-[75vh] mx-auto'>
+      <div className=' flex flex-col  w-full justify-between bg-background rounded-lg overflow-hidden  border border-border/60'>
         <div className='bg-border/60 text-background p-3 py-2 flex items-center justify-between font-bold'>
           <p className=''>New Message</p>
           <button onClick={() => navigate('/')} type='button'>

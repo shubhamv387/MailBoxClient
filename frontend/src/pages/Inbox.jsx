@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { Loader } from '../components/UI/PageLoader';
 
 const Inbox = () => {
-  const { allMails, unreadMails } = useSelector((state) => state.mail);
+  const { allMails } = useSelector((state) => state.mail);
   const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
@@ -35,18 +35,11 @@ const Inbox = () => {
   }, []);
 
   return (
-    <section className='container flex flex-col justify-center items-center'>
+    <section className=' flex flex-col w-full justify-center items-center'>
       {isLoading ? (
         <Loader className={'p-4 border-[6px] border-accent'} />
       ) : (
         <>
-          {unreadMails ? (
-            <p className='mb-5 p-4 py-1 rounded-2xl bg-accent text-white'>
-              {unreadMails} unread
-            </p>
-          ) : (
-            ''
-          )}
           {allMails && allMails.length > 0 ? (
             <Table mailData={allMails} />
           ) : (
