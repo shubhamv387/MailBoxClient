@@ -50,7 +50,7 @@ const StarredEl = (props) => {
     <>
       <button onClick={starredHandler}>
         {mail.starred ? (
-          <IoMdStar size={25} className='text-yellow-900 cursor-pointer' />
+          <IoMdStar size={25} className='text-yellow-500 cursor-pointer' />
         ) : (
           <IoMdStarOutline size={25} />
         )}
