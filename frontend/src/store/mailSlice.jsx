@@ -9,6 +9,8 @@ import toast from 'react-hot-toast';
 
 const initialState = {
   allMails: [],
+  sent: [],
+  inbox: [],
   unreadMails: 0,
   singleMail: {},
   status: STATUS.IDLE,
@@ -23,7 +25,19 @@ const mailSlice = createSlice({
     },
 
     getAllMails: (state, action) => {
-      state.allMails = action.payload.allMails;
+      if (
+        action.payload.type === 'sent' &&
+        state.sent.length !== action.payload.allMails.length
+      )
+        state.sent = action.payload.allMails;
+
+      if (
+        action.payload.type === 'inbox'
+        // && state.inbox.length !== action.payload.allMails.length && state.unreadMails
+      )
+        state.inbox = action.payload.allMails;
+
+      // state.allMails = action.payload.allMails;
       if (action.payload.unreadMails !== undefined)
         state.unreadMails = action.payload.unreadMails;
     },
@@ -64,7 +78,7 @@ const mailSlice = createSlice({
 //thunk
 export const getAllMailsThunk = (token, type) => {
   return async (dispatch, getState) => {
-    dispatch(MailActions.setStatus(STATUS.LOADING));
+    // dispatch(MailActions.setStatus(STATUS.LOADING));
     try {
       // console.log('thunk');
       const {
@@ -72,8 +86,8 @@ export const getAllMailsThunk = (token, type) => {
       } = await getMails({ token, type });
 
       if (success) {
-        dispatch(MailActions.getAllMails({ allMails, unreadMails }));
-        dispatch(MailActions.setStatus(STATUS.SUCCESS));
+        dispatch(MailActions.getAllMails({ allMails, unreadMails, type }));
+        // dispatch(MailActions.setStatus(STATUS.SUCCESS));
       }
     } catch (error) {
       const errMsg =

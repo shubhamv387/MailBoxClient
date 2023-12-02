@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux';
 import Table from '../components/UI/Table';
 import { getAllMailsThunk } from '../store/mailSlice';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Loader } from '../components/UI/PageLoader';
 import { STATUS } from '../store/helper';
 
 const Inbox = () => {
-  const { allMails, status } = useSelector((state) => state.mail);
+  const { status, inbox } = useSelector((state) => state.mail);
+  const [loader, setLoader] = useState(false);
   const isLoading = status === STATUS.LOADING;
   const dispatch = useDispatch();
   const authCtx = useSelector((state) => state.auth);
@@ -23,6 +24,17 @@ const Inbox = () => {
     // return () => {};
   }, [authCtx.token]);
 
+  useEffect(() => {
+    setLoader(true);
+    const tId = setTimeout(() => {
+      setLoader(false);
+    }, 2000);
+
+    return () => clearTimeout(tId);
+  }, []);
+
+  if (loader) return <Loader className={'p-4 border-[6px] border-accent'} />;
+
   if (status === STATUS.ERROR)
     return <h1 className='text-3xl font-bold'>Oops, Something went wrong!</h1>;
 
@@ -36,10 +48,10 @@ const Inbox = () => {
         <Loader className={'p-4 border-[6px] border-accent'} />
       ) : (
         <>
-          {allMails && allMails.length > 0 ? (
-            <Table mailData={allMails} />
+          {inbox && inbox.length > 0 ? (
+            <Table mailData={inbox} />
           ) : (
-            <h1 className='text-5xl font-bold'>No mail found!</h1>
+            <h1 className='text-3xl md:text-5xl font-bold'>No mail found!</h1>
           )}
         </>
       )}
