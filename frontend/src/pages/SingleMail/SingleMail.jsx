@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import './SingleMail.css';
 import { useLocation, useNavigate } from 'react-router-dom';
-import ReactHtmlParser from 'react-html-parser';
+// import ReactHtmlParser from 'react-html-parser';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { Loader } from '../../components/UI/PageLoader';
@@ -85,8 +85,11 @@ const SingleMail = () => {
             </p>
           </div>
 
-          <div className='p-4 overflow-y-auto h-full html_mail_body'>
-            {ReactHtmlParser(singleMail.body)}
+          <div
+            className='p-4 overflow-y-auto h-full html_mail_body'
+            dangerouslySetInnerHTML={{ __html: singleMail.body }}
+          >
+            {/* {ReactHtmlParser(singleMail.body)} */}
           </div>
         </div>
       </div>

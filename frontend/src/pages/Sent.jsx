@@ -28,7 +28,7 @@ const Sent = () => {
     <section className=' flex flex-col w-full justify-center items-center'>
       {isLoading ? (
         <Loader className={'p-4 border-[6px] border-accent'} />
-      ) : allMails.length > 0 ? (
+      ) : allMails && allMails.length > 0 ? (
         <Table mailData={allMails} />
       ) : (
         <h1 className='text-5xl font-bold'>No mail found!</h1>

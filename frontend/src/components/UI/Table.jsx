@@ -1,7 +1,7 @@
 import { GoDotFill } from 'react-icons/go';
 import { Link, useLocation } from 'react-router-dom';
 import StarredEl from './StarredEl';
-import ReactHtmlParser from 'react-html-parser';
+// import ReactHtmlParser from 'react-html-parser';
 
 const Table = ({ mailData }) => {
   const { pathname } = useLocation();
@@ -52,7 +52,12 @@ const Table = ({ mailData }) => {
               <span>{mail.subject ? mail.subject : ''}&nbsp;</span>
               {mail.body ? (
                 <span className='text-border/50 hidden md:inline-flex text-sm font-normal items-center justify-start '>
-                  -&nbsp; {ReactHtmlParser(mail.body.substring(0, 50))}
+                  -&nbsp;
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: mail.body.substring(0, 50),
+                    }}
+                  ></span>
                   <span>...</span>
                 </span>
               ) : (

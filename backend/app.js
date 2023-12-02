@@ -22,10 +22,6 @@ const mailRouter = require('./router/mail.js');
 app.use('/api/users', userRouter);
 app.use('/api/mails', mailRouter);
 
-app.use('/', (req, res, next) => {
-  res.status(200).json({ success: true, message: 'Home Page!' });
-});
-
 app.use((req, res, next) => {
   res.status(200).json({ success: true, message: 'Page not found!' });
 });
