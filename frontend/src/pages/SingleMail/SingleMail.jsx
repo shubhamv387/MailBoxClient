@@ -1,59 +1,36 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import './SingleMail.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser';
-import {
-  getSingleMailApiCall,
-  updateMailApiCall,
-} from '../../services/mailServices';
-import { useSelector } from 'react-redux';
+
+import { useDispatch, useSelector } from 'react-redux';
 import { Loader } from '../../components/UI/PageLoader';
 import { MdOutlineArrowBack } from 'react-icons/md';
 import { FaUserTie } from 'react-icons/fa6';
 import StarredEl from '../../components/UI/StarredEl';
 import DeleteEl from '../../components/UI/DeleteEl';
+import { fetchSingleMailThunk } from '../../store/mailSlice';
+import { STATUS } from '../../store/helper';
 
 const SingleMail = () => {
   const { pathname } = useLocation();
   const authCtx = useSelector((state) => state.auth);
+  const { singleMail, status } = useSelector((state) => state.mail);
+  const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [mail, setMail] = useState({});
+  const isLoading = status === STATUS.LOADING;
 
   const params = pathname.split('/');
   const type = params[1];
   const _id = params[2];
 
   useEffect(() => {
-    const fetchSingleMail = async () => {
-      setIsLoading(true);
-      try {
-        const {
-          data: { success, mail },
-        } = await getSingleMailApiCall(_id, authCtx.token, type);
-
-        setMail(mail);
-
-        if (type === 'inbox' && success && !mail.markasread) {
-          const { data } = await updateMailApiCall(
-            _id,
-            { markasread: true },
-            authCtx.token,
-            type
-          );
-
-          data.success && setMail({ ...mail, markasread: true });
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    const tId = setTimeout(() => fetchSingleMail(), 0);
+    const tId = setTimeout(
+      () => dispatch(fetchSingleMailThunk(_id, authCtx.token, type)),
+      0
+    );
 
     return () => clearTimeout(tId);
   }, []);
@@ -74,11 +51,11 @@ const SingleMail = () => {
         </div>
 
         <div className='flex w-full gap-2 flex-col md:flex-row justify-between p-4 border-b border-b-border/20'>
-          <p className='text-lg md:text-xl font-bold'>{mail.subject}</p>
+          <p className='text-lg md:text-xl font-bold'>{singleMail.subject}</p>
           <div className='flex gap-3 items-center'>
-            <StarredEl mail={mail} />
+            <StarredEl mail={singleMail} />
 
-            <DeleteEl _id={mail._id} />
+            <DeleteEl _id={singleMail._id} />
           </div>
         </div>
 
@@ -91,25 +68,25 @@ const SingleMail = () => {
 
               <div>
                 <h3 className='text-base lg:text-lg font-semibold'>
-                  {mail.from && mail.from.split('@')[0]}{' '}
+                  {singleMail.from && singleMail.from.split('@')[0]}{' '}
                   <span className='font-normal text-sm lg:text-base text-border/60'>
-                    &#60;{mail.from}&#62;
+                    &#60;{singleMail.from}&#62;
                   </span>
                 </h3>
                 <h4 className='text-sm lg:text-base'>
                   <span className='font-bold text-text/40'>To: &nbsp;</span>
-                  {mail.to}
+                  {singleMail.to}
                 </h4>
               </div>
             </div>
 
             <p className='w-fit text-sm lg:text-base ms-12'>
-              {new Date(mail.date).toLocaleString()}
+              {new Date(singleMail.date).toLocaleString()}
             </p>
           </div>
 
           <div className='p-4 overflow-y-auto h-full html_mail_body'>
-            {ReactHtmlParser(mail.body)}
+            {ReactHtmlParser(singleMail.body)}
           </div>
         </div>
       </div>

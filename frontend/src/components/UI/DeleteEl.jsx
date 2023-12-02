@@ -25,6 +25,11 @@ const DeleteEl = (props) => {
       toast.success(data.message);
       navigate(-1);
     } catch (error) {
+      const errMsg =
+        error.response?.data?.message ||
+        error.message ||
+        'Failed to delete mail!';
+      toast.error(errMsg);
       console.log(error);
     } finally {
       setIsLoading(false);

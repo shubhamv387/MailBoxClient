@@ -1,5 +1,5 @@
 import { createContext, useReducer } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 const initialState = {
   isSidebarOpen: false,
@@ -12,7 +12,11 @@ const sidebarReducer = (state, action) => {
   throw new Error(`No matching "${action.type} action type`);
 };
 
-export const SidebarContext = createContext({});
+export const SidebarContext = createContext({
+  isSidebarOpen: false,
+  toggleSidebar: () => {},
+});
+
 export const SidebarProvider = ({ children }) => {
   const [state, dispatch] = useReducer(sidebarReducer, initialState);
 
@@ -32,6 +36,6 @@ export const SidebarProvider = ({ children }) => {
   );
 };
 
-SidebarProvider.propTypes = {
-  children: PropTypes.node,
-};
+// SidebarProvider.propTypes = {
+//   children: PropTypes.node,
+// };

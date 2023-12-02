@@ -1,10 +1,11 @@
-import { RiInboxFill, RiSendPlaneFill } from 'react-icons/ri';
+import { LuMails } from 'react-icons/lu';
+import { RiInboxFill, RiPencilFill, RiSendPlaneFill } from 'react-icons/ri';
 
-export const navigationLinks = [
+const navigationLinks = [
   {
     id: 1,
     title: 'Compose',
-    icon: RiInboxFill,
+    icon: RiPencilFill,
     href: '/compose-mail',
   },
   {
@@ -18,12 +19,14 @@ export const navigationLinks = [
     id: 3,
     title: 'Sent',
     icon: RiSendPlaneFill,
-    href: '/outbox',
+    href: '/sent',
   },
   {
     id: 4,
     title: 'All',
-    icon: RiInboxFill,
+    icon: LuMails,
     href: '/all',
   },
 ];
+
+export default navigationLinks;

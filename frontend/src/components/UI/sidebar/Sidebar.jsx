@@ -1,55 +1,22 @@
 import { useEffect, useState } from 'react';
-import person_two from '../../../assets/images/person_two.jpg';
+import person_one from '../../../assets/images/person_one.jpg';
 import './Sidebar.css';
 import { useContext } from 'react';
 import { SidebarContext } from '../../../context/sidebarContext.jsx';
 import { NavLink, useNavigate } from 'react-router-dom';
-import {
-  RiInboxFill,
-  RiSendPlaneFill,
-  RiPencilFill,
-  RiLogoutBoxLine,
-} from 'react-icons/ri';
-import { LuMails } from 'react-icons/lu';
+import { RiLogoutBoxLine } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { AuthActions } from '../../../store/authSlice.jsx';
 import { MailActions } from '../../../store/mailSlice.jsx';
 import toast from 'react-hot-toast';
-
-const navigationLinks = [
-  {
-    id: 1,
-    title: 'Compose',
-    icon: RiPencilFill,
-    href: '/compose-mail',
-  },
-  {
-    id: 2,
-    title: 'Inbox',
-    icon: RiInboxFill,
-    href: '/inbox',
-  },
-
-  {
-    id: 3,
-    title: 'Sent',
-    icon: RiSendPlaneFill,
-    href: '/outbox',
-  },
-  {
-    id: 4,
-    title: 'All',
-    icon: LuMails,
-    href: '/all',
-  },
-];
+import navigationLinks from '../../../constents/navigationLinks.jsx';
 
 const Sidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [sidebarClass, setSidebarClass] = useState('');
-  const { isSidebarOpen } = useContext(SidebarContext);
+  const { isSidebarOpen, toggleSidebar } = useContext(SidebarContext);
 
   const { unreadMails } = useSelector((state) => state.mail);
 
@@ -70,12 +37,12 @@ const Sidebar = () => {
 
   return (
     <div className={`sidebar bg-secondary flex flex-col ${sidebarClass}`}>
-      {/* <div className='user-info'>
+      <div className='user-info'>
         <div className='info-img img-fit-cover'>
-          <img src={person_two} alt='profile image' />
+          <img src={person_one} alt='profile image' />
         </div>
-        <span className='info-name'>alice-doe</span>
-      </div> */}
+        <span className='info-name'>Shubham V.</span>
+      </div>
 
       <nav className='navigation flex-1'>
         <ul className='nav-list'>

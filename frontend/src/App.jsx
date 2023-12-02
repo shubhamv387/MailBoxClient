@@ -11,12 +11,9 @@ const Register = lazy(() => import('./pages/Register.jsx'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword.jsx'));
 const ComposeMail = lazy(() => import('./pages/ComposeMail.jsx'));
 const Inbox = lazy(() => import('./pages/Inbox.jsx'));
-const Outbox = lazy(() => import('./pages/Outbox.jsx'));
+const Sent = lazy(() => import('./pages/Sent.jsx'));
 const PageNotFound = lazy(() => import('./pages/PageNotFound.jsx'));
 const SingleMail = lazy(() => import('./pages/SingleMail/SingleMail.jsx'));
-
-// const About = lazy(() => import('./pages/About.jsx'));
-// const Contact = lazy(() => import('./pages/Contact.jsx'));
 
 import PageLoader from './components/UI/PageLoader.jsx';
 
@@ -105,13 +102,13 @@ const App = () => {
           />
 
           <Route
-            path='/outbox'
+            path='/sent'
             exact
             element={
               <ProtectedRoute
                 element={
                   <Suspense fallback={<PageLoader />}>
-                    <Outbox />
+                    <Sent />
                   </Suspense>
                 }
               />
@@ -119,7 +116,7 @@ const App = () => {
           />
 
           <Route
-            path='/outbox/:id'
+            path='/sent/:id'
             element={
               <ProtectedRoute
                 element={

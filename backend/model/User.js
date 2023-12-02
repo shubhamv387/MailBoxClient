@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema(
       select: false,
       min: 6,
     },
+    unreadMailCount: {
+      type: Number,
+      default: 0,
+    },
   },
   { versionKey: false, timestamps: true }
 );

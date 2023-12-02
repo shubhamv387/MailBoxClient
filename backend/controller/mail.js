@@ -13,6 +13,8 @@ exports.sendMail = async (req, res, next) => {
         message: 'Receiver email does not exist!',
       });
 
+    receiver.unreadMailCount += 1;
+
     const mail = new Mail({
       ...req.body,
       from: req.user.email,
@@ -23,7 +25,7 @@ exports.sendMail = async (req, res, next) => {
       from: req.user.email,
     });
 
-    await Promise.all([mail.save(), inboxMail.save()]);
+    await Promise.all([mail.save(), inboxMail.save(), receiver.save()]);
 
     res.status(201).json({ success: true, mail });
   } catch (error) {
@@ -57,7 +59,7 @@ exports.getMails = async (req, res, next) => {
         }).sort({ date: -1 });
         break;
 
-      case 'outbox':
+      case 'sent':
         allMails = await Mail.find({
           from: req.user.email,
         }).sort({ date: -1 });
@@ -67,13 +69,9 @@ exports.getMails = async (req, res, next) => {
         break;
     }
 
-    const unreadMails = await InboxMail.countDocuments({
-      to: req.user.email,
-      markasread: false,
-    });
-    // console.log(unreadMails);
-
-    return res.status(200).json({ success: true, allMails, unreadMails });
+    return res
+      .status(200)
+      .json({ success: true, allMails, unreadMails: req.user.unreadMailCount });
   } catch (error) {
     console.log(error);
   }
@@ -83,7 +81,7 @@ exports.getSingleMail = async (req, res, next) => {
   try {
     let mail;
 
-    if (req.params.type === 'outbox') {
+    if (req.params.type === 'sent') {
       mail = await Mail.findOne({ _id: req.params.id });
 
       if (!mail)
@@ -108,10 +106,16 @@ exports.getSingleMail = async (req, res, next) => {
 exports.updateMail = async (req, res, next) => {
   // console.log(req.body, req.params);
   try {
-    if (req.params.type === 'outbox') {
+    if (req.params.type === 'sent') {
       await Mail.updateOne({ _id: req.params.id }, { $set: req.body });
     } else if (req.params.type === 'inbox') {
       await InboxMail.updateOne({ _id: req.params.id }, { $set: req.body });
+
+      if (req.user.unreadMailCount > 0)
+        await User.updateOne(
+          { _id: req.user._id },
+          { unreadMailCount: req.user.unreadMailCount - 1 }
+        );
     }
 
     res
@@ -124,7 +128,7 @@ exports.updateMail = async (req, res, next) => {
 
 exports.deleteMail = async (req, res, next) => {
   try {
-    if (req.params.type === 'outbox') {
+    if (req.params.type === 'sent') {
       await Mail.deleteOne({ _id: req.params.id });
     } else if (req.params.type === 'inbox') {
       await InboxMail.findOneAndDelete({ _id: req.params.id });

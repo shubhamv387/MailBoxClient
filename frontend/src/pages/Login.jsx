@@ -1,7 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import Input from '../components/UI/Input';
-// import AuthContext from '../store/auth-context';
 import { loginUser } from '../services/userServices';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
@@ -10,9 +9,6 @@ import { AuthActions } from '../store/authSlice';
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  // const authCtx = useContext(AuthContext);
-  //   console.log(authCtx);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isShownPass, setIsShownPass] = useState(false);
@@ -35,7 +31,7 @@ const Login = () => {
     const enteredPassword = passwordInputRef.current.value.trim();
 
     if (enteredEmail.length < 1 || enteredPassword.length < 1) {
-      return toast.warn('All fields required!');
+      return toast.error('All fields required!');
     }
 
     setIsLoading(true);

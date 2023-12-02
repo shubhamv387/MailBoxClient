@@ -32,7 +32,7 @@ const Table = ({ mailData }) => {
                 ))}
 
               <p className='min-w-[4rem] lg:min-w-[12rem]'>
-                {pathname === '/outbox' ? (
+                {pathname === '/sent' ? (
                   <span>
                     To : &nbsp;{mail.to.split('@')[0].substring(0, 15)}
                   </span>

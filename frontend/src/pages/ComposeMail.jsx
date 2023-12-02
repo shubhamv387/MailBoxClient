@@ -65,7 +65,7 @@ const ComposeMail = () => {
       subjectInputRef.current.value = '';
 
       toast.success('Message sent successfully!');
-      navigate('/outbox');
+      navigate('/sent');
     } catch (error) {
       const errMsg =
         error?.response?.data?.message ||

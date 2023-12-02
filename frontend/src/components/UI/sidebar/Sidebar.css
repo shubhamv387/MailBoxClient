@@ -1,7 +1,7 @@
 /* sidebar */
 .sidebar {
   width: 300px;
-  padding: 36px 20px;
+  padding: 16px 20px;
   transition: all 300ms ease-in-out;
 }
 .user-info {
@@ -68,12 +68,6 @@
   text-transform: capitalize;
 }
 
-@media screen and (max-width: 1400px) {
-  .sidebar {
-    padding: 24px 16px;
-  }
-}
-
 @media screen and (max-width: 1200px) {
   .sidebar {
     width: 72px;
@@ -95,8 +89,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 45px;
+    height: 45px;
   }
   .nav-link.active {
     border-radius: 100%;

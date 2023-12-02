@@ -34,7 +34,7 @@ const NavBar = ({ className }) => {
             </li>
 
             <li className='text-text'>
-              <NavLink to={'/outbox'}>Outbox</NavLink>
+              <NavLink to={'/sent'}>Sent</NavLink>
             </li>
 
             <li className='text-text'>

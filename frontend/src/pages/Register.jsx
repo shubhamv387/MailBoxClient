@@ -1,7 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useRef, useState } from 'react';
 import Input from '../components/UI/Input';
-// import AuthContext from '../store/auth-context';
 import { registerUser } from '../services/userServices';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
@@ -10,9 +9,6 @@ import { AuthActions } from '../store/authSlice';
 const Auth = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  // const authCtx = useContext(AuthContext);
-  // console.log(authCtx);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isShownPass, setIsShownPass] = useState(false);
@@ -41,7 +37,7 @@ const Auth = () => {
       enteredPassword.length < 1 ||
       enteredConfirmPass.length < 1
     ) {
-      return toast.warn('All fields required!');
+      return toast.error('All fields required!');
     }
 
     // eslint-disable-next-line no-unused-vars
@@ -50,29 +46,29 @@ const Auth = () => {
 
     if (!/(?=.*[a-z])/.test(enteredPassword)) {
       passwordInputRef.current.focus();
-      return toast.warn('At least one lowercase character is required!');
+      return toast.error('At least one lowercase character is required!');
     }
     if (!/(?=.*[A-Z])/.test(enteredPassword)) {
       passwordInputRef.current.focus();
-      return toast.warn('At least one uppercase character is required!');
+      return toast.error('At least one uppercase character is required!');
     }
     if (!/(?=.*[0-9])/.test(enteredPassword)) {
       passwordInputRef.current.focus();
-      return toast.warn('At least one numeric character is required!');
+      return toast.error('At least one numeric character is required!');
     }
     if (!/(?=.*[^A-Za-z0-9])/.test(enteredPassword)) {
       passwordInputRef.current.focus();
-      return toast.warn('At least one special character is required!');
+      return toast.error('At least one special character is required!');
     }
     if (!/.{6,}/.test(enteredPassword)) {
       passwordInputRef.current.focus();
-      return toast.warn('Password must be at least 6 characters long!');
+      return toast.error('Password must be at least 6 characters long!');
     }
 
     if (enteredPassword !== enteredConfirmPass) {
       confirmPassInputRef.current.value = '';
       confirmPassInputRef.current.focus();
-      return toast.warn('password does not matches!');
+      return toast.error('password does not matches!');
     }
 
     setIsLoading(true);
