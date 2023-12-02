@@ -11,7 +11,7 @@ const Table = ({ mailData }) => {
       {mailData.map((mail) => (
         <li
           key={mail._id}
-          className='flex flex-col lg:flex-row gap-3 lg:gap-10 p-2 px-4 items-start lg:items-center justify-between bg-border/10 text-text hover:bg-blue-100/70 hover:text-black'
+          className='flex flex-col lg:flex-row gap-3 lg:gap-10  px-4 xl:max-h-[42px] items-start lg:items-center justify-between bg-border/10 text-text hover:bg-blue-500/20'
         >
           <div className='flex gap-2 lg:gap-4 items-center w-full lg:w-auto'>
             <input type='checkbox' className='w-4 h-4 cursor-pointer' />
@@ -21,7 +21,7 @@ const Table = ({ mailData }) => {
 
           <Link
             to={`${pathname}/${mail._id}`}
-            className='flex-1 w-full relative flex flex-col lg:flex-row gap-1 items-start lg:items-center justify-between lg:pe-[3.8rem]'
+            className='flex-1 w-full relative flex flex-col p-2 lg:flex-row gap-1 items-start lg:items-center justify-between lg:pe-[3.8rem]'
           >
             <div className='flex gap-1 items-center'>
               {mail.markasread === undefined ||
