@@ -1,7 +1,7 @@
 import { IoMdStar, IoMdStarOutline } from 'react-icons/io';
 import { updateMailApiCall } from '../../services/mailServices';
 import toast from 'react-hot-toast';
-import { MailActions } from '../../store/mailSlice';
+import { MailActions, getAllMailsThunk } from '../../store/mailSlice';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
@@ -34,6 +34,9 @@ const StarredEl = (props) => {
       );
 
       setMail({ ...mail, starred: !mail.starred });
+
+      if (type === 'starred')
+        dispatch(getAllMailsThunk(authCtx.token, 'starred'));
 
       !mail.starred
         ? toast.success('successfully added!')

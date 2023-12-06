@@ -26,8 +26,8 @@ const mailSlice = createSlice({
 
     getAllMails: (state, action) => {
       if (
-        action.payload.type === 'sent' &&
-        state.sent.length !== action.payload.allMails.length
+        action.payload.type === 'sent'
+        // && state.sent.length !== action.payload.allMails.length
       )
         state.sent = action.payload.allMails;
       else if (

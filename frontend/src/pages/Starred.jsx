@@ -11,8 +11,6 @@ const Starred = () => {
   const dispatch = useDispatch();
   const authCtx = useSelector((state) => state.auth);
 
-  console.log(allMails);
-
   useEffect(() => {
     const tId = setTimeout(() => {
       dispatch(getAllMailsThunk(authCtx.token, 'starred'));

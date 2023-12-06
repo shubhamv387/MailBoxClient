@@ -162,6 +162,13 @@ exports.updateMail = async (req, res, next) => {
           { _id: req.user._id },
           { unreadMailCount: req.user.unreadMailCount - 1 }
         );
+    } else {
+      let mail = await Mail.findOne({ _id: req.params.id });
+
+      if (mail)
+        await Mail.updateOne({ _id: req.params.id }, { $set: req.body });
+      else
+        await InboxMail.updateOne({ _id: req.params.id }, { $set: req.body });
     }
 
     res
