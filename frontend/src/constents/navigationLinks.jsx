@@ -1,5 +1,6 @@
 import { LuMails } from 'react-icons/lu';
 import { RiInboxFill, RiPencilFill, RiSendPlaneFill } from 'react-icons/ri';
+import { TbStars } from 'react-icons/tb';
 
 const navigationLinks = [
   {
@@ -23,6 +24,12 @@ const navigationLinks = [
   },
   {
     id: 4,
+    title: 'Starred',
+    icon: TbStars,
+    href: '/starred',
+  },
+  {
+    id: 5,
     title: 'All',
     icon: LuMails,
     href: '/all',

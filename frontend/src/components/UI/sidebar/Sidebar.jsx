@@ -36,7 +36,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className={`sidebar bg-secondary flex flex-col ${sidebarClass}`}>
+    <aside className={`sidebar bg-secondary flex flex-col ${sidebarClass}`}>
       <div className='user-info'>
         <div className='info-img img-fit-cover'>
           <img src={person_one} alt='profile image' />
@@ -73,7 +73,7 @@ const Sidebar = () => {
         <RiLogoutBoxLine size={20} className='nav-link-icon' />{' '}
         <span className='nav-link-text '>Logout</span>
       </button>
-    </div>
+    </aside>
   );
 };
 

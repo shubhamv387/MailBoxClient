@@ -1,6 +1,6 @@
-import { Suspense, lazy, useEffect } from 'react';
+import { Suspense, lazy } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Toaster } from 'react-hot-toast';
 
@@ -14,13 +14,15 @@ const Inbox = lazy(() => import('./pages/Inbox.jsx'));
 const Sent = lazy(() => import('./pages/Sent.jsx'));
 const PageNotFound = lazy(() => import('./pages/PageNotFound.jsx'));
 const SingleMail = lazy(() => import('./pages/SingleMail/SingleMail.jsx'));
+const Starred = lazy(() => import('./pages/Starred.jsx'));
+const All = lazy(() => import('./pages/All.jsx'));
 
 import PageLoader from './components/UI/PageLoader.jsx';
-import { getAllMailsThunk } from './store/mailSlice.jsx';
+// import { getAllMailsThunk } from './store/mailSlice.jsx';
 
 const App = () => {
   const authCtx = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const ProtectedRoute = ({ element }) => {
     if (authCtx.isLoggedIn) {
@@ -40,13 +42,13 @@ const App = () => {
     }
   };
 
-  useEffect(() => {
-    const tId = setInterval(() => {
-      authCtx.token && dispatch(getAllMailsThunk(authCtx.token, 'inbox'));
-    }, 5000);
+  // useEffect(() => {
+  //   const tId = setInterval(() => {
+  //     authCtx.token && dispatch(getAllMailsThunk(authCtx.token, 'inbox'));
+  //   }, 5000);
 
-    return () => clearInterval(tId);
-  }, [authCtx.token]);
+  //   return () => clearInterval(tId);
+  // }, [authCtx.token]);
 
   return (
     <>
@@ -127,6 +129,60 @@ const App = () => {
 
           <Route
             path='/sent/:id'
+            element={
+              <ProtectedRoute
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <SingleMail />
+                  </Suspense>
+                }
+              />
+            }
+          />
+
+          <Route
+            path='/starred'
+            exact
+            element={
+              <ProtectedRoute
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <Starred />
+                  </Suspense>
+                }
+              />
+            }
+          />
+
+          <Route
+            path='/starred/:id'
+            element={
+              <ProtectedRoute
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <SingleMail />
+                  </Suspense>
+                }
+              />
+            }
+          />
+
+          <Route
+            path='/all'
+            exact
+            element={
+              <ProtectedRoute
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <All />
+                  </Suspense>
+                }
+              />
+            }
+          />
+
+          <Route
+            path='/all/:id'
             element={
               <ProtectedRoute
                 element={

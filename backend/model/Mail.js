@@ -20,7 +20,7 @@ const mailSchema = new mongoose.Schema(
 
     starred: { type: Boolean, default: false },
 
-    type: String,
+    type: [String],
 
     date: {
       type: Date,

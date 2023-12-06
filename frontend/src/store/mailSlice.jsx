@@ -30,14 +30,13 @@ const mailSlice = createSlice({
         state.sent.length !== action.payload.allMails.length
       )
         state.sent = action.payload.allMails;
-
-      if (
+      else if (
         action.payload.type === 'inbox'
         // && state.inbox.length !== action.payload.allMails.length && state.unreadMails
       )
         state.inbox = action.payload.allMails;
+      else state.allMails = action.payload.allMails;
 
-      // state.allMails = action.payload.allMails;
       if (action.payload.unreadMails !== undefined)
         state.unreadMails = action.payload.unreadMails;
     },
@@ -78,7 +77,7 @@ const mailSlice = createSlice({
 //thunk
 export const getAllMailsThunk = (token, type) => {
   return async (dispatch, getState) => {
-    // dispatch(MailActions.setStatus(STATUS.LOADING));
+    dispatch(MailActions.setStatus(STATUS.LOADING));
     try {
       // console.log('thunk');
       const {
@@ -87,7 +86,7 @@ export const getAllMailsThunk = (token, type) => {
 
       if (success) {
         dispatch(MailActions.getAllMails({ allMails, unreadMails, type }));
-        // dispatch(MailActions.setStatus(STATUS.SUCCESS));
+        dispatch(MailActions.setStatus(STATUS.SUCCESS));
       }
     } catch (error) {
       const errMsg =

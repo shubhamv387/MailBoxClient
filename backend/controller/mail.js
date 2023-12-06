@@ -40,19 +40,6 @@ exports.getMails = async (req, res, next) => {
     let allMails = [];
 
     switch (req.params.type) {
-      case 'all':
-        const mail = await Mail.find({
-          from: req.user.email,
-        });
-
-        const inboxMail = await InboxMail.find({
-          to: req.user.email,
-        });
-
-        allMails = [...mail, ...inboxMail].sort((a, b) => b.date - a.date);
-
-        break;
-
       case 'inbox':
         allMails = await InboxMail.find({
           to: req.user.email,
@@ -63,6 +50,56 @@ exports.getMails = async (req, res, next) => {
         allMails = await Mail.find({
           from: req.user.email,
         }).sort({ date: -1 });
+        break;
+
+      case 'starred':
+        const mails = await Mail.find({
+          from: req.user.email,
+          starred: true,
+        });
+
+        const inboxMails = await InboxMail.find({
+          to: req.user.email,
+          starred: true,
+        });
+
+        let newSentMails = mails.map(({ _doc }) => ({
+          ..._doc,
+          type: 'sent',
+        }));
+
+        let newInboxMails = inboxMails.map(({ _doc }) => ({
+          ..._doc,
+          type: 'inbox',
+        }));
+
+        allMails = [...newSentMails, ...newInboxMails].sort(
+          (a, b) => b.date - a.date
+        );
+        break;
+
+      case 'all':
+        const allSent = await Mail.find({
+          from: req.user.email,
+        });
+
+        const allInboxMails = await InboxMail.find({
+          to: req.user.email,
+        });
+
+        const newAllSentMails = allSent.map(({ _doc }) => ({
+          ..._doc,
+          type: 'sent',
+        }));
+
+        const newAllInboxMails = allInboxMails.map(({ _doc }) => ({
+          ..._doc,
+          type: 'inbox',
+        }));
+
+        allMails = [...newAllSentMails, ...newAllInboxMails].sort(
+          (a, b) => b.date - a.date
+        );
         break;
 
       default:
@@ -90,6 +127,15 @@ exports.getSingleMail = async (req, res, next) => {
           .json({ success: false, message: 'Bad Request!' });
     } else if (req.params.type === 'inbox') {
       mail = await InboxMail.findOne({ _id: req.params.id });
+
+      if (!mail)
+        return res
+          .status(400)
+          .json({ success: false, message: 'Bad Request!' });
+    } else {
+      mail = await Mail.findOne({ _id: req.params.id });
+
+      if (!mail) mail = await InboxMail.findOne({ _id: req.params.id });
 
       if (!mail)
         return res

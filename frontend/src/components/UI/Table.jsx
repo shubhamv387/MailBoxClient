@@ -11,7 +11,7 @@ const Table = ({ mailData }) => {
       {mailData.map((mail) => (
         <li
           key={mail._id}
-          className='flex flex-col lg:flex-row gap-3 lg:gap-10  px-4 xl:max-h-[42px] items-start lg:items-center justify-between bg-border/10 text-text hover:bg-blue-500/20'
+          className='flex flex-col lg:flex-row gap-1 lg:gap-10 px-4 py-2 lg:py-0 xl:max-h-[42px] items-start lg:items-center justify-between bg-border/10 text-text hover:bg-blue-500/20'
         >
           <div className='flex gap-2 lg:gap-4 items-center w-full lg:w-auto'>
             <input type='checkbox' className='w-4 h-4 cursor-pointer' />
@@ -42,9 +42,9 @@ const Table = ({ mailData }) => {
               </p>
             </div>
 
-            {pathname === '/all' && (
-              <p className='p-2 py-0.5 rounded-md bg-background text-sm text-text'>
-                inbox
+            {(pathname === '/all' || pathname === '/starred') && (
+              <p className='p-2 py-0.5 me-1 rounded-md bg-background text-sm text-text'>
+                {mail.type || 'mail'}
               </p>
             )}
 
