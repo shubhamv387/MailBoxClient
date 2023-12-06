@@ -12,7 +12,7 @@ const Input = ({ input, className, label, isShownPass, setIsShownPass }) => {
       <input
         ref={input.ref}
         {...input}
-        className={`mt-2 appearance-none text-slate-900 bg-transparent rounded-md block w-full ps-3 ${
+        className={`mt-2 appearance-none text-text bg-transparent rounded-md block w-full ps-3 ${
           input.name === 'password' ? 'pe-[2.8rem]' : ' pe-3'
         } h-10 shadow-sm sm:text-sm focus:outline-none placeholder:text-border/40 ring-1 ring-border/20 focus:ring-2 focus:ring-border/80  ${
           className ? className : ''
