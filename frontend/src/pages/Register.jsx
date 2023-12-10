@@ -5,7 +5,7 @@ import { registerUser } from '../services/userServices';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { AuthActions } from '../store/authSlice';
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from 'react-helmet';
 
 const Auth = () => {
   const navigate = useNavigate();

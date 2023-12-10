@@ -8,6 +8,6 @@ export default defineConfig({
     port: 5050,
   },
   optimizeDeps: {
-    include: ['react-quill'],
+    include: ['react-quill', 'react-helmet'],
   },
 });

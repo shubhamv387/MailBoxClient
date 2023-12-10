@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { getAllMailsThunk } from '../store/mailSlice';
 import { Loader } from '../components/UI/PageLoader';
 import { STATUS } from '../store/helper';
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from 'react-helmet';
 
 const Sent = () => {
   const { sent, status } = useSelector((state) => state.mail);

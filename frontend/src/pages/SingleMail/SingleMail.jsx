@@ -11,7 +11,7 @@ import StarredEl from '../../components/UI/StarredEl';
 import DeleteEl from '../../components/UI/DeleteEl';
 import { fetchSingleMailThunk } from '../../store/mailSlice';
 import { STATUS } from '../../store/helper';
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from 'react-helmet';
 
 const SingleMail = () => {
   const { pathname } = useLocation();
@@ -41,8 +41,9 @@ const SingleMail = () => {
   return (
     <>
       <Helmet>
-        <title>{singleMail.subject.substring(0, 100)} - Mail box client</title>
+        <title>{`${singleMail.subject} - Mail box client`}</title>
       </Helmet>
+
       <section className='flex justify-center w-full my-3 px-1 h-[79vh] mx-auto'>
         <div className=' flex flex-col w-full justify-between bg-secondary/30 rounded-lg overflow-hidden '>
           <div className='bg-border/20 text-background p-3 py-2 flex items-center gap-3'>

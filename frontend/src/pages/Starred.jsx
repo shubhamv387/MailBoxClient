@@ -4,7 +4,7 @@ import { getAllMailsThunk } from '../store/mailSlice';
 import { useEffect } from 'react';
 import { Loader } from '../components/UI/PageLoader';
 import { STATUS } from '../store/helper';
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from 'react-helmet';
 
 const Starred = () => {
   const { status, allMails } = useSelector((state) => state.mail);

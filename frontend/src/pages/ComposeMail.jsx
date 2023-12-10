@@ -13,7 +13,7 @@ import { sendMail } from '../services/mailServices';
 import { useDispatch, useSelector } from 'react-redux';
 import { MailActions } from '../store/mailSlice';
 import { Loader } from '../components/UI/PageLoader';
-import { Helmet } from 'react-helmet-async';
+import { Helmet } from 'react-helmet';
 
 const ComposeMail = () => {
   const authCtx = useSelector((state) => state.auth);
