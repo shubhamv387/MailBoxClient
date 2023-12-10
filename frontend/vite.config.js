@@ -10,4 +10,9 @@ export default defineConfig({
   optimizeDeps: {
     include: ['react-quill', 'react-helmet'],
   },
+  build: {
+    rollupOptions: {
+      external: ['react-helmet'],
+    },
+  },
 });
