@@ -4,14 +4,13 @@ import { getAllMailsThunk } from '../store/mailSlice';
 import { useEffect } from 'react';
 import { Loader } from '../components/UI/PageLoader';
 import { STATUS } from '../store/helper';
+import { Helmet } from 'react-helmet-async';
 
 const All = () => {
   const { status, allMails } = useSelector((state) => state.mail);
   const isLoading = status === STATUS.LOADING;
   const dispatch = useDispatch();
   const authCtx = useSelector((state) => state.auth);
-
-  console.log(allMails);
 
   useEffect(() => {
     const tId = setTimeout(() => {
@@ -25,23 +24,28 @@ const All = () => {
     return <h1 className='text-3xl font-bold'>Oops, Something went wrong!</h1>;
 
   return (
-    <section className=' flex flex-col w-full justify-center items-center pb-8'>
-      {status === STATUS.ERROR && (
-        <h1 className='text-3xl font-bold'>Oops, Something went wrong!</h1>
-      )}
+    <>
+      <Helmet>
+        <title>All mails - Mail box client</title>
+      </Helmet>
+      <section className=' flex flex-col w-full justify-center items-center pb-8'>
+        {status === STATUS.ERROR && (
+          <h1 className='text-3xl font-bold'>Oops, Something went wrong!</h1>
+        )}
 
-      {isLoading ? (
-        <Loader className={'p-4 border-[6px] border-accent'} />
-      ) : (
-        <>
-          {allMails && allMails.length > 0 ? (
-            <Table mailData={allMails} />
-          ) : (
-            <h1 className='text-3xl md:text-5xl font-bold'>No mail found!</h1>
-          )}
-        </>
-      )}
-    </section>
+        {isLoading ? (
+          <Loader className={'p-4 border-[6px] border-accent'} />
+        ) : (
+          <>
+            {allMails && allMails.length > 0 ? (
+              <Table mailData={allMails} />
+            ) : (
+              <h1 className='text-3xl md:text-5xl font-bold'>No mail found!</h1>
+            )}
+          </>
+        )}
+      </section>
+    </>
   );
 };
 

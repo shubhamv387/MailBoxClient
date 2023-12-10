@@ -13,6 +13,7 @@ import { sendMail } from '../services/mailServices';
 import { useDispatch, useSelector } from 'react-redux';
 import { MailActions } from '../store/mailSlice';
 import { Loader } from '../components/UI/PageLoader';
+import { Helmet } from 'react-helmet-async';
 
 const ComposeMail = () => {
   const authCtx = useSelector((state) => state.auth);
@@ -79,68 +80,73 @@ const ComposeMail = () => {
   };
 
   return (
-    <section className='flex justify-center w-full my-3 h-[75vh] mx-auto'>
-      <div className=' flex flex-col  w-full justify-between bg-background rounded-lg overflow-hidden  border border-border/60'>
-        <div className='bg-border/60 text-background p-3 py-2 flex items-center justify-between font-bold'>
-          <p className=''>New Message</p>
-          <button onClick={() => navigate('/')} type='button'>
-            <CgClose size={20} />
-          </button>
+    <>
+      <Helmet>
+        <title>Compose mail - Mail box client</title>
+      </Helmet>
+      <section className='flex justify-center w-full my-3 h-[75vh] mx-auto'>
+        <div className=' flex flex-col  w-full justify-between bg-background rounded-lg overflow-hidden  border border-border/60'>
+          <div className='bg-border/60 text-background p-3 py-2 flex items-center justify-between font-bold'>
+            <p className=''>New Message</p>
+            <button onClick={() => navigate('/')} type='button'>
+              <CgClose size={20} />
+            </button>
+          </div>
+
+          <form
+            onSubmit={formSubmitHandler}
+            className='flex flex-1 flex-col justify-between'
+          >
+            <div className='px-3 flex flex-col h-[64vh] overflow-y-hidden'>
+              <input
+                ref={recipientInputRef}
+                name='recipient'
+                type='text'
+                placeholder='To'
+                className='w-full bg-transparent outline-none border-b border-b-border/20 p-3'
+              />
+              <input
+                ref={subjectInputRef}
+                name='subject'
+                type='text'
+                placeholder='Subject'
+                className='w-full bg-transparent border-b border-b-border/20 outline-none p-3'
+              />
+
+              <ReactQuill
+                ref={bodyInputRef}
+                theme='snow'
+                value={value}
+                onChange={setValue}
+                className='h-full w-full bg-transparent'
+                modules={{ toolbar: toolbarOptions }}
+              />
+            </div>
+            <div className='p-5 py-3 flex items-center justify-between '>
+              <button
+                disabled={isLoading}
+                className='bg-accent hover:bg-accent/80 text-white p-4 py-1 text-lg rounded-full w-fit flex items-center'
+                type='submit'
+              >
+                {isLoading ? (
+                  <span className='flex items-center'>
+                    <Loader className={'p-2 border-2 border-blue'} /> &nbsp;
+                    Sending mail...
+                  </span>
+                ) : (
+                  <span className='flex items-center'>
+                    Send &nbsp; <BiSolidSend />
+                  </span>
+                )}
+              </button>
+              <button type='button' onClick={() => navigate('/')}>
+                <RiDeleteBinLine size={23} />
+              </button>
+            </div>
+          </form>
         </div>
-
-        <form
-          onSubmit={formSubmitHandler}
-          className='flex flex-1 flex-col justify-between'
-        >
-          <div className='px-3 flex flex-col h-[64vh] overflow-y-hidden'>
-            <input
-              ref={recipientInputRef}
-              name='recipient'
-              type='text'
-              placeholder='To'
-              className='w-full bg-transparent outline-none border-b border-b-border/20 p-3'
-            />
-            <input
-              ref={subjectInputRef}
-              name='subject'
-              type='text'
-              placeholder='Subject'
-              className='w-full bg-transparent border-b border-b-border/20 outline-none p-3'
-            />
-
-            <ReactQuill
-              ref={bodyInputRef}
-              theme='snow'
-              value={value}
-              onChange={setValue}
-              className='h-full w-full bg-transparent'
-              modules={{ toolbar: toolbarOptions }}
-            />
-          </div>
-          <div className='p-5 py-3 flex items-center justify-between '>
-            <button
-              disabled={isLoading}
-              className='bg-accent hover:bg-accent/80 text-white p-4 py-1 text-lg rounded-full w-fit flex items-center'
-              type='submit'
-            >
-              {isLoading ? (
-                <span className='flex items-center'>
-                  <Loader className={'p-2 border-2 border-blue'} /> &nbsp;
-                  Sending mail...
-                </span>
-              ) : (
-                <span className='flex items-center'>
-                  Send &nbsp; <BiSolidSend />
-                </span>
-              )}
-            </button>
-            <button type='button' onClick={() => navigate('/')}>
-              <RiDeleteBinLine size={23} />
-            </button>
-          </div>
-        </form>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 

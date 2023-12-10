@@ -7,6 +7,7 @@ import { ThemeProvider } from '@material-tailwind/react';
 import { Provider } from 'react-redux';
 import store from './store';
 import { SidebarProvider } from './context/sidebarContext.jsx';
+import { HelmetProvider } from 'react-helmet-async';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -14,7 +15,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <BrowserRouter>
         <ThemeProvider>
           <SidebarProvider>
-            <App />
+            <HelmetProvider>
+              <App />
+            </HelmetProvider>
           </SidebarProvider>
         </ThemeProvider>
       </BrowserRouter>
