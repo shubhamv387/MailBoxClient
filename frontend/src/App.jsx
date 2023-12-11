@@ -16,13 +16,12 @@ const PageNotFound = lazy(() => import('./pages/PageNotFound.jsx'));
 const SingleMail = lazy(() => import('./pages/SingleMail/SingleMail.jsx'));
 const Starred = lazy(() => import('./pages/Starred.jsx'));
 const All = lazy(() => import('./pages/All.jsx'));
+import Popup from './components/UI/Popup';
 
 import PageLoader from './components/UI/PageLoader.jsx';
-// import { getAllMailsThunk } from './store/mailSlice.jsx';
 
 const App = () => {
   const authCtx = useSelector((state) => state.auth);
-  // const dispatch = useDispatch();
 
   const ProtectedRoute = ({ element }) => {
     if (authCtx.isLoggedIn) {
@@ -42,14 +41,6 @@ const App = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const tId = setInterval(() => {
-  //     authCtx.token && dispatch(getAllMailsThunk(authCtx.token, 'inbox'));
-  //   }, 5000);
-
-  //   return () => clearInterval(tId);
-  // }, [authCtx.token]);
-
   return (
     <>
       <Toaster
@@ -61,6 +52,8 @@ const App = () => {
           },
         }}
       />
+
+      <Popup />
 
       <Routes>
         <Route path='/' element={<RootLayout />}>

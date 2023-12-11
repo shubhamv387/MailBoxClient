@@ -8,11 +8,11 @@ export default defineConfig({
     port: 5050,
   },
   optimizeDeps: {
-    include: ['react-quill', 'react-helmet'],
+    include: ['react-quill'],
   },
-  build: {
-    rollupOptions: {
-      external: ['react-helmet'],
-    },
-  },
+  // build: {
+  //   rollupOptions: {
+  //     external: ['react-helmet'],
+  //   },
+  // },
 });
