@@ -9,15 +9,15 @@ import store from './store';
 import { SidebarProvider } from './context/sidebarContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  // <React.StrictMode>
-  <Provider store={store}>
-    <BrowserRouter>
-      <ThemeProvider>
-        <SidebarProvider>
-          <App />
-        </SidebarProvider>
-      </ThemeProvider>
-    </BrowserRouter>
-  </Provider>
-  // </React.StrictMode>
+  <React.StrictMode>
+    <Provider store={store}>
+      <BrowserRouter>
+        <ThemeProvider>
+          <SidebarProvider>
+            <App />
+          </SidebarProvider>
+        </ThemeProvider>
+      </BrowserRouter>
+    </Provider>
+  </React.StrictMode>
 );

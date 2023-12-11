@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import person_one from '../../../assets/images/person_one.jpg';
 import './Sidebar.css';
 import { useContext } from 'react';
 import { SidebarContext } from '../../../context/sidebarContext.jsx';
@@ -16,9 +15,10 @@ const Sidebar = () => {
   const navigate = useNavigate();
 
   const [sidebarClass, setSidebarClass] = useState('');
-  const { isSidebarOpen, toggleSidebar } = useContext(SidebarContext);
+  const { isSidebarOpen } = useContext(SidebarContext);
 
   const { unreadMails } = useSelector((state) => state.mail);
+  const { username } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (isSidebarOpen) {
@@ -39,9 +39,12 @@ const Sidebar = () => {
     <aside className={`sidebar bg-secondary flex flex-col ${sidebarClass}`}>
       <div className='user-info'>
         <div className='info-img img-fit-cover'>
-          <img src={person_one} alt='profile image' />
+          <img
+            src='https://d2pas86kykpvmq.cloudfront.net/images/humans-3.0/ava-1.png'
+            alt='profile image'
+          />
         </div>
-        <span className='info-name'>username</span>
+        <span className='info-name'>{username}</span>
       </div>
 
       <nav className='navigation flex-1'>

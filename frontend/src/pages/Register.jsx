@@ -5,7 +5,6 @@ import { registerUser } from '../services/userServices';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { AuthActions } from '../store/authSlice';
-import { Helmet } from 'react-helmet';
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -108,81 +107,76 @@ const Auth = () => {
   };
 
   return (
-    <>
-      <Helmet>
-        <title>Register - Mail box client</title>
-      </Helmet>
-      <section className='mt-10 md:mt-16 w-full flex flex-col overflow-hidden px-4 py-10 sm:px-6 lg:px-8'>
-        <div className='flex flex-1 flex-col items-center justify-center pb-20 gap-10 md:gap-20'>
-          <h1 className='flex self-center font-semibold text-3xl '>Register</h1>
-          <form onSubmit={submitFormHandler} className='w-full max-w-sm'>
-            <Input
-              label={'Email address'}
-              input={{
-                type: 'email',
-                name: 'email',
-                id: 'email',
-                ref: emailInputRef,
-                placeholder: 'johndoe@gmail.com',
-              }}
-            />
+    <section className='mt-10 md:mt-16 w-full flex flex-col overflow-hidden px-4 py-10 sm:px-6 lg:px-8'>
+      <div className='flex flex-1 flex-col items-center justify-center pb-20 gap-10 md:gap-20'>
+        <h1 className='flex self-center font-semibold text-3xl '>Register</h1>
+        <form onSubmit={submitFormHandler} className='w-full max-w-sm'>
+          <Input
+            label={'Email address'}
+            input={{
+              type: 'email',
+              name: 'email',
+              id: 'email',
+              ref: emailInputRef,
+              placeholder: 'johndoe@gmail.com',
+            }}
+          />
 
-            <Input
-              label={'Password'}
-              input={{
-                type: 'password',
-                name: 'password',
-                id: 'password',
-                ref: passwordInputRef,
-                placeholder: '********',
-              }}
-              isShownPass={isShownPass}
-              setIsShownPass={setIsShownPassHandler}
-            />
+          <Input
+            label={'Password'}
+            input={{
+              type: 'password',
+              name: 'password',
+              id: 'password',
+              ref: passwordInputRef,
+              placeholder: '********',
+            }}
+            isShownPass={isShownPass}
+            setIsShownPass={setIsShownPassHandler}
+          />
 
-            <Input
-              label={'Confirm Password'}
-              input={{
-                type: 'password',
-                name: 'confirmPassword',
-                id: 'confirmPassword',
-                ref: confirmPassInputRef,
-                placeholder: '********',
-              }}
-            />
-            <button
-              disabled={isLoading}
-              type='submit'
-              className='inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-accent hover:bg-accent/95 text-white w-full disabled:bg-accent/70'
-            >
-              {!isLoading ? (
-                <span>Create a new account</span>
-              ) : (
-                <>
-                  <div className='h-5 w-5 mr-3 rounded-full animate-spin border-2 border-solid border-yellow-400 border-t-transparent' />
-                  <span>Processing...</span>
-                </>
-              )}
-            </button>
-          </form>
-        </div>
-
-        <div className='text-sm text-text flex flex-row items-center justify-center gap-3 md:gap-5'>
-          <p className='text-center inline-flex sm:text-left mb-0'>
-            Already have an account?
-          </p>
-          <Link
-            className='inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 ring-1 ring-border/40 hover:ring-border duration-150'
-            to={'/login'}
+          <Input
+            label={'Confirm Password'}
+            input={{
+              type: 'password',
+              name: 'confirmPassword',
+              id: 'confirmPassword',
+              ref: confirmPassInputRef,
+              placeholder: '********',
+            }}
+          />
+          <button
+            disabled={isLoading}
+            type='submit'
+            className='inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 bg-accent hover:bg-accent/95 text-white w-full disabled:bg-accent/70'
           >
-            <span>
-              Login &nbsp;
-              <span aria-hidden='true'>&rarr;</span>
-            </span>
-          </Link>
-        </div>
-      </section>
-    </>
+            {!isLoading ? (
+              <span>Create a new account</span>
+            ) : (
+              <>
+                <div className='h-5 w-5 mr-3 rounded-full animate-spin border-2 border-solid border-yellow-400 border-t-transparent' />
+                <span>Processing...</span>
+              </>
+            )}
+          </button>
+        </form>
+      </div>
+
+      <div className='text-sm text-text flex flex-row items-center justify-center gap-3 md:gap-5'>
+        <p className='text-center inline-flex sm:text-left mb-0'>
+          Already have an account?
+        </p>
+        <Link
+          className='inline-flex justify-center rounded-lg text-sm font-semibold py-2.5 px-4 ring-1 ring-border/40 hover:ring-border duration-150'
+          to={'/login'}
+        >
+          <span>
+            Login &nbsp;
+            <span aria-hidden='true'>&rarr;</span>
+          </span>
+        </Link>
+      </div>
+    </section>
   );
 };
 

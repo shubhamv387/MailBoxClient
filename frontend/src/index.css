@@ -142,10 +142,12 @@ header nav a:hover,
 }
 
 /* REACT QUILL CUSTOM CSS */
+.ql-container {
+  overflow-y: auto;
+}
 
 .ql-container.ql-snow {
   border: none !important;
-  height: 89% !important;
 }
 
 .ql-toolbar.ql-snow {
@@ -186,6 +188,10 @@ header nav a:hover,
 .ql-snow .ql-fill,
 .ql-snow .ql-stroke.ql-fill {
   fill: hsl(var(--text-1)) !important;
+}
+
+.ql-snow .ql-editor img {
+  max-width: 45vw !important;
 }
 
 .ql-snow.ql-toolbar button:hover,
