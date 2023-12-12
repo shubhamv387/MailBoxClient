@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Input from '../components/UI/Input';
 import { useRef, useState } from 'react';
 import { BsArrowLeft } from 'react-icons/bs';
@@ -6,6 +6,7 @@ import { ForgotPasswordReq } from '../services/userServices';
 import { toast } from 'react-hot-toast';
 
 const ForgotPassword = () => {
+  const navigate = useNavigate();
   const emailInputRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -17,7 +18,11 @@ const ForgotPassword = () => {
     try {
       const { data } = await ForgotPasswordReq(enteredEmail);
       console.log(data);
-      if (data.success) toast.success(data.message);
+      if (!data.success) toast.error('Something went wrong!');
+
+      toast.success(data.message);
+      emailInputRef.current.value = '';
+      navigate('/login');
     } catch (error) {
       console.log(error);
       const errMsg =
