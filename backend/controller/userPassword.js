@@ -57,7 +57,7 @@ exports.resetForgotPassword = async (req, res, next) => {
 
     res
       .status(200)
-      .json({ status: 'Success', message: 'email sent successfully!' });
+      .json({ success: true, message: 'email sent successfully!' });
   } catch (error) {
     await session.abortTransaction();
     console.error(error);
