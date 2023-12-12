@@ -72,7 +72,7 @@ exports.resetForgotPassword = async (req, res, next) => {
 // @access  Private
 exports.createNewPassword = async (req, res, next) => {
   try {
-    const FPR = await ForgotPasswordRequest.findOne({ id: req.params.id });
+    const FPR = await ForgotPasswordRequest.findOne({ uuid: req.params.uuid });
     if (!FPR)
       return res.status(400).json({ success: false, message: 'invalid link' });
 
@@ -108,7 +108,7 @@ exports.PostCreateNewPassword = async (req, res, next) => {
     if (!FPR.isActive) {
       return res.status(400).send({
         success: false,
-        message: 'Link Expired! please generate a New Link',
+        message: 'Link expired, Request a new link!',
       });
     }
 

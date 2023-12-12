@@ -19,8 +19,10 @@ const UpdatePassword = () => {
 
   useEffect(() => {
     GetResetPasswordReq(uuid)
-      .then(({ data }) => console.log(data))
-      .catch((err) => console.log(err));
+      .then(({ data }) => {
+        if (!data.success) navigate('/login');
+      })
+      .catch((err) => navigate('/login', { replace: true }));
   }, []);
 
   const setIsShownPassHandler = () => {
