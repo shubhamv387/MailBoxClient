@@ -104,3 +104,10 @@ exports.login = async (req, res, next) => {
     console.log(err);
   }
 };
+
+// @desc    Get user profile
+// @route   GET /api/users/validate-token
+// @access  Private
+exports.validateToken = async (req, res, next) => {
+  res.status(200).json({ success: true, message: 'valid token' });
+};

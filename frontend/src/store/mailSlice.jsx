@@ -6,6 +6,7 @@ import {
 } from '../services/mailServices';
 import { STATUS } from './helper';
 import toast from 'react-hot-toast';
+import { AuthActions } from './authSlice';
 
 const initialState = {
   allMails: [],
@@ -25,15 +26,8 @@ const mailSlice = createSlice({
     },
 
     getAllMails: (state, action) => {
-      if (
-        action.payload.type === 'sent'
-        // && state.sent.length !== action.payload.allMails.length
-      )
-        state.sent = action.payload.allMails;
-      else if (
-        action.payload.type === 'inbox'
-        // && state.inbox.length !== action.payload.allMails.length && state.unreadMails
-      )
+      if (action.payload.type === 'sent') state.sent = action.payload.allMails;
+      else if (action.payload.type === 'inbox')
         state.inbox = action.payload.allMails;
       else state.allMails = action.payload.allMails;
 
@@ -82,7 +76,7 @@ export const getAllMailsThunk = (token, type) => {
       // console.log('thunk');
       const {
         data: { success, allMails, unreadMails },
-      } = await getMails({ token, type });
+      } = await getMails(token, type);
 
       if (success) {
         dispatch(MailActions.getAllMails({ allMails, unreadMails, type }));
@@ -95,6 +89,7 @@ export const getAllMailsThunk = (token, type) => {
         'Failed to get mails!';
       toast.error(errMsg);
       console.log(error);
+      error.response?.data?.unAuthorized && dispatch(AuthActions.logout());
       dispatch(MailActions.setStatus(STATUS.ERROR));
     }
   };
@@ -132,6 +127,7 @@ export const fetchSingleMailThunk = (_id, token, type) => {
       toast.error(errMsg);
       console.log(error);
       dispatch(MailActions.setStatus(STATUS.ERROR));
+      error.response?.data?.unAuthorized && dispatch(AuthActions.logout());
     }
   };
 };

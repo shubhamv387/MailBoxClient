@@ -16,10 +16,12 @@ const PORT = process.env.PORT || 4000;
 
 // routers requires
 const userRouter = require('./router/user.js');
+const userPasswordRouter = require('./router/userPassword');
 const mailRouter = require('./router/mail.js');
 
 // routers
 app.use('/api/users', userRouter);
+app.use('/api/password', userPasswordRouter);
 app.use('/api/mails', mailRouter);
 
 app.use((req, res, next) => {

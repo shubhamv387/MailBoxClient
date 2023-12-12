@@ -9,7 +9,7 @@ export const sendMail = async (formData, token) => {
   return axios.post(`${import.meta.env.VITE_BASE_URL}/mails`, formData, config);
 };
 
-export const getMails = async ({ token, type }) => {
+export const getMails = async (token, type) => {
   const config = {
     headers: {
       authorization: token,

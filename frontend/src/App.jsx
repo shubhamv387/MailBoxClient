@@ -1,14 +1,15 @@
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 
 import RootLayout from './components/layout/RootLayout';
 // const Home = lazy(() => import('./pages/Home.jsx'));
 const Login = lazy(() => import('./pages/Login.jsx'));
 const Register = lazy(() => import('./pages/Register.jsx'));
 const ForgotPassword = lazy(() => import('./pages/ForgotPassword.jsx'));
+const UpdatePassword = lazy(() => import('./pages/UpdatePassword.jsx'));
 const ComposeMail = lazy(() => import('./pages/ComposeMail.jsx'));
 const Inbox = lazy(() => import('./pages/Inbox.jsx'));
 const Sent = lazy(() => import('./pages/Sent.jsx'));
@@ -19,8 +20,11 @@ const All = lazy(() => import('./pages/All.jsx'));
 import Popup from './components/UI/Popup';
 
 import PageLoader from './components/UI/PageLoader.jsx';
+import { validateToken } from './services/userServices.jsx';
+import { AuthActions } from './store/authSlice.jsx';
 
 const App = () => {
+  const dispatch = useDispatch();
   const authCtx = useSelector((state) => state.auth);
 
   const ProtectedRoute = ({ element }) => {
@@ -40,6 +44,20 @@ const App = () => {
       return null;
     }
   };
+
+  useEffect(() => {
+    const tId = setTimeout(
+      () =>
+        authCtx.token &&
+        validateToken(authCtx.token).catch(() => {
+          toast.error('Something wrong, Please login again!');
+          dispatch(AuthActions.logout());
+        }),
+      0
+    );
+
+    return () => clearTimeout(tId);
+  }, []);
 
   return (
     <>
@@ -212,6 +230,20 @@ const App = () => {
               />
             }
           />
+
+          <Route
+            path='/reset-password/:uuid'
+            element={
+              <LoggedInRoute
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <UpdatePassword />
+                  </Suspense>
+                }
+              />
+            }
+          />
+
           <Route
             path='/register'
             element={
@@ -227,9 +259,13 @@ const App = () => {
           <Route
             path='*'
             element={
-              <Suspense fallback={<PageLoader />}>
-                <PageNotFound />
-              </Suspense>
+              <ProtectedRoute
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <PageNotFound />
+                  </Suspense>
+                }
+              />
             }
           />
         </Route>

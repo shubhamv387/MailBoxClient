@@ -12,20 +12,25 @@ exports.authUser = async (req, res, next) => {
       if (!user)
         return res.status(401).json({
           success: false,
-          message: 'Not User Found, Please Login again',
+          message: 'No User Found, Please Login again',
+          unAuthorized: true,
         });
 
       // console.log(user);
       req.user = user;
       next();
     } else {
-      return res
-        .status(401)
-        .json({ success: false, message: 'Not authorized, no token' });
+      return res.status(401).json({
+        success: false,
+        message: 'Not authorized, no token',
+        unAuthorized: true,
+      });
     }
   } catch (error) {
-    return res
-      .status(401)
-      .json({ success: false, message: 'Not authorized, invalid token' });
+    return res.status(401).json({
+      success: false,
+      message: 'Not authorized, invalid token',
+      unAuthorized: true,
+    });
   }
 };

@@ -4,10 +4,9 @@ const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcryptjs');
 const User = require('../model/User');
 const mongoose = require('mongoose');
-const path = require('path');
 
 // @desc    Sending password reset mail to User
-// @route   POST /user/password/forgotpassword
+// @route   POST /api/password/forgot-password
 // @access  Public
 exports.resetForgotPassword = async (req, res, next) => {
   const session = await mongoose.startSession();
@@ -18,13 +17,13 @@ exports.resetForgotPassword = async (req, res, next) => {
     if (!user)
       return res
         .status(400)
-        .json({ status: 'Failed', message: 'email does not Exists!' });
+        .json({ success: false, message: 'email does not Exists!' });
 
-    const id = uuidv4();
+    const uuid = uuidv4();
     const FPR = new ForgotPasswordRequest({
       isActive: true,
       userId: user._id,
-      id,
+      uuid,
     });
 
     await FPR.save({ session });
@@ -39,7 +38,8 @@ exports.resetForgotPassword = async (req, res, next) => {
 
     apiKey.apiKey = process.env.BREVO_API_KEY;
 
-    const path = `https://skv-expense-app.onrender.com/password/resetpassword/${id}`;
+    const path = `https:react-skv-mail/reset-password/${uuid}`;
+    // const path = `https://skv-expense-app.onrender.com/password/reset-password/${uuid}`;
 
     const sender = {
       email: 'shubhamv387@gmail.com',
@@ -55,41 +55,38 @@ exports.resetForgotPassword = async (req, res, next) => {
       htmlContent: `<a href="${path}">Click Here</a> to reset your password!`,
     });
 
-    await session.commitTransaction();
     res
       .status(200)
       .json({ status: 'Success', message: 'email sent successfully!' });
   } catch (error) {
     await session.abortTransaction();
-    console.error(error.message.underline.red);
+    console.error(error);
+    res.status(500).json({ success: false, message: 'request unsuccessful!' });
   } finally {
     await session.endSession();
   }
 };
 
-// @desc    Reset Forgot Password
-// @route   GET /user/password/resetpassword/:id
+// @desc    Reset Password link check
+// @route   GET /api/password/reset-password/:uuid
 // @access  Private
 exports.createNewPassword = async (req, res, next) => {
   try {
     const FPR = await ForgotPasswordRequest.findOne({ id: req.params.id });
     if (!FPR)
-      return res
-        .status(400)
-        .json({ status: 'failed', message: 'invalid link' });
+      return res.status(400).json({ success: false, message: 'invalid link' });
 
-    return res
-      .status(200)
-      .sendFile(
-        path.join(process.cwd(), 'public/forgotpass/forgotpassword.html')
-      );
+    return res.status(200).json({ success: true });
   } catch (error) {
     console.error(error);
+    return res
+      .status(500)
+      .json({ success: false, message: 'Something went wrong!' });
   }
 };
 
-// @desc    Reset Forgot Password
-// @route   POST /user/password/resetpassword/:id
+// @desc    Reset New Password
+// @route   POST /api/password/reset-password/:uuid
 // @access  Private
 exports.PostCreateNewPassword = async (req, res, next) => {
   const { pass, confirmPass } = req.body;
@@ -98,7 +95,7 @@ exports.PostCreateNewPassword = async (req, res, next) => {
   if (pass !== confirmPass)
     return res
       .status(400)
-      .send({ status: 'Failed', message: 'MisMatched Passwords!' });
+      .send({ success: false, message: 'MisMatched Passwords!' });
 
   try {
     session.startTransaction();
@@ -106,14 +103,12 @@ exports.PostCreateNewPassword = async (req, res, next) => {
     const FPR = await ForgotPasswordRequest.findOne({ id: req.params.id });
 
     if (!FPR)
-      return res
-        .status(400)
-        .json({ status: 'failed', message: 'invalid link' });
+      return res.status(400).json({ success: false, message: 'invalid link' });
 
     if (!FPR.isActive) {
       return res.status(400).send({
-        status: 'Failed',
-        message: 'Link Expired! Go back and generate a New Link',
+        success: false,
+        message: 'Link Expired! please generate a New Link',
       });
     }
 
@@ -135,10 +130,10 @@ exports.PostCreateNewPassword = async (req, res, next) => {
     await session.commitTransaction();
     res
       .status(200)
-      .send({ status: 'Success', message: 'Password Updated Successfully' });
+      .send({ success: true, message: 'Password Updated Successfully' });
   } catch (error) {
     await session.abortTransaction();
-    console.log('line 136', error.message.underline.red);
+    console.log(error.message.underline.red);
   } finally {
     await session.endSession();
   }

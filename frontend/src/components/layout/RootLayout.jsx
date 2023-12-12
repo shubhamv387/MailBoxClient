@@ -1,4 +1,4 @@
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useParams } from 'react-router-dom';
 import Header from '../Header';
 import Footer from '../Footer';
 import Sidebar from '../UI/sidebar/Sidebar';
@@ -6,7 +6,14 @@ import Sidebar from '../UI/sidebar/Sidebar';
 const RootLayout = () => {
   const { pathname } = useLocation();
 
-  const authRouts = new Set(['/login', '/register', '/forgot-password']);
+  const params = useParams();
+
+  const authRouts = new Set([
+    '/login',
+    '/register',
+    '/forgot-password',
+    `/reset-password/${params.uuid}`,
+  ]);
 
   return (
     <div className='flex w-full bg-background text-text min-h-screen overflow-hidden'>

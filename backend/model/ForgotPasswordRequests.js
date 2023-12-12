@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const ForgotPasswordRequestSchema = new mongoose.Schema({
-  id: {
+  uuid: {
     type: String,
     required: true,
   },
@@ -12,12 +12,12 @@ const ForgotPasswordRequestSchema = new mongoose.Schema({
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
     required: true,
   },
 });
 
 module.exports = mongoose.model(
-  "ForgotPasswordRequest",
+  'ForgotPasswordRequest',
   ForgotPasswordRequestSchema
 );

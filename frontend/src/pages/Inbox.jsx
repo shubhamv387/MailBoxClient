@@ -7,7 +7,6 @@ import { STATUS } from '../store/helper';
 
 const Inbox = () => {
   const { status, inbox } = useSelector((state) => state.mail);
-  // const [loader, setLoader] = useState(false);
   const isLoading = status === STATUS.LOADING;
   const dispatch = useDispatch();
   const authCtx = useSelector((state) => state.auth);
@@ -23,17 +22,6 @@ const Inbox = () => {
     return () => clearTimeout(tId);
     // return () => {};
   }, [authCtx.token]);
-
-  // useEffect(() => {
-  //   setLoader(true);
-  //   const tId = setTimeout(() => {
-  //     setLoader(false);
-  //   }, 2000);
-
-  //   return () => clearTimeout(tId);
-  // }, []);
-
-  // if (loader) return <Loader className={'p-4 border-[6px] border-accent'} />;
 
   if (status === STATUS.ERROR)
     return <h1 className='text-3xl font-bold'>Oops, Something went wrong!</h1>;
