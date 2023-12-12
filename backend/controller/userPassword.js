@@ -38,7 +38,7 @@ exports.resetForgotPassword = async (req, res, next) => {
 
     apiKey.apiKey = process.env.BREVO_API_KEY;
 
-    const path = `https:react-skv-mail/reset-password/${uuid}`;
+    const path = `https://react-skv-mail/reset-password/${uuid}`;
     // const path = `https://skv-expense-app.onrender.com/password/reset-password/${uuid}`;
 
     const sender = {

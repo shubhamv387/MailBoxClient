@@ -16,6 +16,7 @@ const ForgotPassword = () => {
     setIsLoading(true);
     try {
       const { data } = await ForgotPasswordReq(enteredEmail);
+      console.log(data);
       if (data.success) toast.success(data.message);
     } catch (error) {
       console.log(error);
