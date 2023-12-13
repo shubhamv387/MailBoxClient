@@ -5,10 +5,13 @@ import { registerUser } from '../services/userServices';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
 import { AuthActions } from '../store/authSlice';
+import usePasswordCheck from '../hooks/usePasswordCheck';
 
 const Auth = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const [passwordCheck] = usePasswordCheck();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isShownPass, setIsShownPass] = useState(false);
@@ -32,11 +35,7 @@ const Auth = () => {
     const enteredPassword = passwordInputRef.current.value.trim();
     const enteredConfirmPass = confirmPassInputRef.current.value.trim();
 
-    if (
-      enteredEmail.length < 1 ||
-      enteredPassword.length < 1 ||
-      enteredConfirmPass.length < 1
-    ) {
+    if (enteredEmail.length < 1 || enteredPassword.length < 1) {
       return toast.error('All fields required!');
     }
 
@@ -44,25 +43,10 @@ const Auth = () => {
     const regexPattern =
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\0-9)(?=.*[^A-Za-z0-9]).{8,}$/;
 
-    if (!/(?=.*[a-z])/.test(enteredPassword)) {
+    const { isValid, message } = passwordCheck(enteredPassword);
+    if (!isValid) {
       passwordInputRef.current.focus();
-      return toast.error('At least one lowercase character is required!');
-    }
-    if (!/(?=.*[A-Z])/.test(enteredPassword)) {
-      passwordInputRef.current.focus();
-      return toast.error('At least one uppercase character is required!');
-    }
-    if (!/(?=.*[0-9])/.test(enteredPassword)) {
-      passwordInputRef.current.focus();
-      return toast.error('At least one numeric character is required!');
-    }
-    if (!/(?=.*[^A-Za-z0-9])/.test(enteredPassword)) {
-      passwordInputRef.current.focus();
-      return toast.error('At least one special character is required!');
-    }
-    if (!/.{6,}/.test(enteredPassword)) {
-      passwordInputRef.current.focus();
-      return toast.error('Password must be at least 6 characters long!');
+      return toast.error(message);
     }
 
     if (enteredPassword !== enteredConfirmPass) {

@@ -7,9 +7,13 @@ import {
   GetResetPasswordReq,
   PostResetPasswordReq,
 } from '../services/userServices';
+import usePasswordCheck from '../hooks/usePasswordCheck';
 
 const UpdatePassword = () => {
   const navigate = useNavigate();
+
+  const [passwordCheck] = usePasswordCheck();
+
   const passwordInputRef = useRef();
   const confirmPassInputRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
@@ -39,29 +43,10 @@ const UpdatePassword = () => {
     const enteredPassword = passwordInputRef.current.value.trim();
     const enteredConfirmPass = confirmPassInputRef.current.value.trim();
 
-    if (enteredPassword.length < 1 || enteredConfirmPass.length < 1) {
-      return toast.error('All fields required!');
-    }
-
-    if (!/(?=.*[a-z])/.test(enteredPassword)) {
+    const { isValid, message } = passwordCheck(enteredPassword);
+    if (!isValid) {
       passwordInputRef.current.focus();
-      return toast.error('At least one lowercase character is required!');
-    }
-    if (!/(?=.*[A-Z])/.test(enteredPassword)) {
-      passwordInputRef.current.focus();
-      return toast.error('At least one uppercase character is required!');
-    }
-    if (!/(?=.*[0-9])/.test(enteredPassword)) {
-      passwordInputRef.current.focus();
-      return toast.error('At least one numeric character is required!');
-    }
-    if (!/(?=.*[^A-Za-z0-9])/.test(enteredPassword)) {
-      passwordInputRef.current.focus();
-      return toast.error('At least one special character is required!');
-    }
-    if (!/.{6,}/.test(enteredPassword)) {
-      passwordInputRef.current.focus();
-      return toast.error('Password must be at least 6 characters long!');
+      return toast.error(message);
     }
 
     if (enteredPassword !== enteredConfirmPass) {
@@ -89,6 +74,8 @@ const UpdatePassword = () => {
       const errMsg =
         error.response?.data?.message || error.message || 'Request failed!';
       toast.error(errMsg);
+      if (errMsg === 'Link expired, Request a new link!')
+        navigate('/forgot-password');
     } finally {
       setIsLoading(false);
     }
