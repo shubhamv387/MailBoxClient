@@ -13,14 +13,10 @@ const mailSchema = new mongoose.Schema(
     },
 
     subject: String,
-
     body: { type: String },
-
     // bin: { type: Boolean, default: false },
-
     starred: { type: Boolean, default: false },
-
-    type: [String],
+    // type: [String],
 
     date: {
       type: Date,

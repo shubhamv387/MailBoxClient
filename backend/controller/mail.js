@@ -89,7 +89,7 @@ exports.getMails = asyncErrorHandler(async (req, res, next) => {
       break;
 
     default:
-      break;
+      throw new CustomError(`Requested route ${req.url} not found!`, 404);
   }
 
   return res

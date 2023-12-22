@@ -25,6 +25,7 @@ const userRouter = require('./router/user.js');
 const userPasswordRouter = require('./router/userPassword');
 const mailRouter = require('./router/mail.js');
 const CustomError = require('./utils/customError.js');
+const errorMiddleware = require('./middleware/errorMiddleware.js');
 
 // routers
 app.use('/api/users', userRouter);
@@ -32,19 +33,11 @@ app.use('/api/password', userPasswordRouter);
 app.use('/api/mails', mailRouter);
 
 app.use((req, res, next) => {
-  const err = new CustomError(`Requested URL ${req.path} not found!`, 404);
-  next(err);
+  throw new CustomError(`Requested URL ${req.path} not found!`, 404);
 });
 
 // Global Error Handling
-app.use((err, req, res, next) => {
-  const statusCode = err.statusCode || 500;
-  res.status(statusCode).json({
-    success: false,
-    message: err.message,
-    stack: process.env.NODE_ENV === 'development' ? err.stack : null,
-  });
-});
+app.use(errorMiddleware);
 
 connectdb()
   .then(() => {

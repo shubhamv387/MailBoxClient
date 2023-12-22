@@ -13,13 +13,9 @@ const inboxMailSchema = new mongoose.Schema(
     },
 
     subject: String,
-
     body: { type: String },
-
     // bin: { type: Boolean, default: false },
-
     starred: { type: Boolean, default: false },
-
     markasread: { type: Boolean, default: false },
 
     date: {
