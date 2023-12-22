@@ -89,7 +89,7 @@ export const getAllMailsThunk = (token, type) => {
         'Failed to get mails!';
       toast.error(errMsg);
       console.log(error);
-      error.response?.data?.unAuthorized && dispatch(AuthActions.logout());
+      error.response?.statusCode === 401 && dispatch(AuthActions.logout());
       dispatch(MailActions.setStatus(STATUS.ERROR));
     }
   };
@@ -127,7 +127,7 @@ export const fetchSingleMailThunk = (_id, token, type) => {
       toast.error(errMsg);
       console.log(error);
       dispatch(MailActions.setStatus(STATUS.ERROR));
-      error.response?.data?.unAuthorized && dispatch(AuthActions.logout());
+      error.response?.statusCode === 401 && dispatch(AuthActions.logout());
     }
   };
 };

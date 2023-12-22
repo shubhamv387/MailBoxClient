@@ -1,36 +1,24 @@
 const jwt = require('jsonwebtoken');
 const User = require('../model/User');
+const CustomError = require('../utils/customError');
 
 exports.authUser = async (req, res, next) => {
   // console.log(req.headers.authorization);
   let token = req.headers.authorization;
-  try {
-    if (token) {
-      const { userId } = jwt.verify(token, process.env.JWT_SECRET_KEY);
-      const user = await User.findOne({ _id: userId });
+
+  if (!token) return next(new CustomError('Not authorized, no token', 401));
+
+  jwt.verify(token, process.env.JWT_SECRET_KEY, async (error, decode) => {
+    if (error) {
+      return next(new CustomError('Not authorized, invalid token', 401));
+    } else {
+      const user = await User.findOne({ _id: decode.userId });
 
       if (!user)
-        return res.status(401).json({
-          success: false,
-          message: 'No User Found, Please Login again',
-          unAuthorized: true,
-        });
+        return next(new CustomError('No User Found, Please Login again', 401));
 
-      // console.log(user);
       req.user = user;
       next();
-    } else {
-      return res.status(401).json({
-        success: false,
-        message: 'Not authorized, no token',
-        unAuthorized: true,
-      });
     }
-  } catch (error) {
-    return res.status(401).json({
-      success: false,
-      message: 'Not authorized, invalid token',
-      unAuthorized: true,
-    });
-  }
+  });
 };
