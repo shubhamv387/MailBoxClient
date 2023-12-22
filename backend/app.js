@@ -8,7 +8,13 @@ const connectdb = require('./config/database.js');
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ['https://react-skv-mail.netlify.app', 'http://localhost:5050'],
+    credentials: true,
+  })
+);
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
