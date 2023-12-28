@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AuthActions } from '../../../store/authSlice.jsx';
 import { MailActions } from '../../../store/mailSlice.jsx';
 import toast from 'react-hot-toast';
-import navigationLinks from '../../../constents/navigationLinks.jsx';
+import sidebarLinks from '../../../constents/sidebarLinks.jsx';
 
 const Sidebar = () => {
   const dispatch = useDispatch();
@@ -49,7 +49,7 @@ const Sidebar = () => {
 
       <nav className='navigation flex-1'>
         <ul className='nav-list'>
-          {navigationLinks.map((navigationLink) => (
+          {sidebarLinks.map((navigationLink) => (
             <li className='nav-item' key={navigationLink.id}>
               <NavLink
                 to={navigationLink.href}

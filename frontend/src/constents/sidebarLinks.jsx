@@ -2,7 +2,7 @@ import { LuMails } from 'react-icons/lu';
 import { RiInboxFill, RiPencilFill, RiSendPlaneFill } from 'react-icons/ri';
 import { TbStars } from 'react-icons/tb';
 
-const navigationLinks = [
+const sidebarLinks = [
   {
     id: 1,
     title: 'Compose',
@@ -36,4 +36,4 @@ const navigationLinks = [
   },
 ];
 
-export default navigationLinks;
+export default sidebarLinks;
